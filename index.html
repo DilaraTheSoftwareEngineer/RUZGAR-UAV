@@ -1,20 +1,15 @@
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RÜZGAR UAV | Silahlı İnsansız Hava Araçları</title>
-  <meta name="description"
-    content="RÜZGAR UAV – Türkiye'nin en ileri nesil silahlı insansız hava araçları geliştirme ve üretim firması. Gökyüzüne hâkimiyet." />
+  <meta name="description" content="RÜZGAR UAV – Türkiye'nin en ileri nesil silahlı insansız hava araçları geliştirme ve üretim firması. Gökyüzüne hâkimiyet." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
   <!-- ========== LOADER ========== -->
@@ -23,9 +18,7 @@
     <div class="loader-ring"></div>
     <div class="loader-ring"></div>
     <div class="loader-text">SİSTEM BAŞLATILIYOR</div>
-    <div class="loader-bar">
-      <div class="loader-bar-fill" id="loaderBarFill"></div>
-    </div>
+    <div class="loader-bar"><div class="loader-bar-fill" id="loaderBarFill"></div></div>
     <div class="loader-percent" id="loaderPercent">0%</div>
   </div>
 
@@ -36,21 +29,15 @@
   <!-- ========== NAVBAR ========== -->
   <nav id="navbar">
     <div class="nav-logo">
-      <div class="nav-logo-icon">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="20,2 38,30 2,30" stroke="#00d4ff" stroke-width="1.5" fill="none" />
-          <polygon points="20,10 30,26 10,26" fill="#00d4ff" opacity="0.3" />
-          <line x1="20" y1="2" x2="20" y2="38" stroke="#00d4ff" stroke-width="1" opacity="0.5" />
-          <circle cx="20" cy="20" r="3" fill="#00d4ff" />
-        </svg>
-      </div>
+      <img src="assets/logo.png" alt="RÜZGAR UAV Logo" class="nav-logo-img" onerror="this.style.display='none'" />
       <span class="nav-logo-text">RÜZGAR<span class="accent">UAV</span></span>
     </div>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#hero" id="nav-home">Ana Sayfa</a></li>
-      <li><a href="#about" id="nav-about">Hakkımızda</a></li>
+      <li><a href="#hero"    id="nav-home">Ana Sayfa</a></li>
+      <li><a href="#about"   id="nav-about">Hakkımızda</a></li>
       <li><a href="#systems" id="nav-systems">Sistemler</a></li>
-      <li><a href="#specs" id="nav-specs">Teknik</a></li>
+      <li><a href="#specs"   id="nav-specs">Teknik</a></li>
+      <li><a href="#team"    id="nav-team">Ekip</a></li>
       <li><a href="#gallery" id="nav-gallery">Galeri</a></li>
       <li><a href="#contact" id="nav-contact">İletişim</a></li>
     </ul>
@@ -75,7 +62,7 @@
         <span class="line2">HÂKİMİYET</span>
       </h1>
       <p class="hero-subtitle" id="heroSubtitle">
-        Türkiye'nin en ileri nesil silahlı insansız hava araçları.<br />
+        Türkiye'nin en ileri nesil silahlı insansız hava araçları.<br/>
         Keşif'ten imhaya, her koşulda üstün performans.
       </p>
       <div class="hero-stats" id="heroStats">
@@ -97,9 +84,7 @@
       <div class="hero-buttons">
         <a href="#systems" class="btn btn-primary" id="heroPrimaryBtn">
           <span>SİSTEMLERİ KEŞFET</span>
-          <svg class="btn-arrow" viewBox="0 0 24 24">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
+          <svg class="btn-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
         <a href="#gallery" class="btn btn-ghost" id="heroGhostBtn">
           <span>GALERİYİ GÖR</span>
@@ -125,7 +110,6 @@
       <div class="hud-line"><span class="hud-label">GPS</span><span class="hud-val hud-green">KİLİTLİ</span></div>
       <div class="hud-line"><span class="hud-label">SLH</span><span class="hud-val hud-orange">HAZIR</span></div>
     </div>
-
     <div class="hero-scroll-indicator">
       <span>KAYDIR</span>
       <div class="scroll-line"></div>
@@ -141,10 +125,8 @@
       </div>
       <div class="about-grid">
         <div class="about-text reveal-left">
-          <p class="about-lead">2015'ten bu yana Türk savunma sanayiinde çığır açan RÜZGAR UAV, insansız hava aracı
-            teknolojisinde dünya standartlarını belirliyor.</p>
-          <p>Yapay zeka destekli otonom navigasyon, gelişmiş silah sistemleri entegrasyonu ve olağanüstü dayanıklılık
-            ile tasarlanan sistemlerimiz; keşif, gözetleme ve taarruz görevlerinde rakipsiz performans sunar.</p>
+          <p class="about-lead">2015'ten bu yana Türk savunma sanayiinde çığır açan RÜZGAR UAV, insansız hava aracı teknolojisinde dünya standartlarını belirliyor.</p>
+          <p>Yapay zeka destekli otonom navigasyon, gelişmiş silah sistemleri entegrasyonu ve olağanüstü dayanıklılık ile tasarlanan sistemlerimiz; keşif, gözetleme ve taarruz görevlerinde rakipsiz performans sunar.</p>
           <div class="about-pillars">
             <div class="pillar">
               <div class="pillar-icon">🛡️</div>
@@ -192,25 +174,24 @@
       <div class="section-header">
         <span class="section-tag">// SİSTEMLER</span>
         <h2 class="section-title">Savaş <span class="accent">Platformları</span></h2>
-        <p class="section-desc">Her görev profili için özel olarak tasarlanmış, operasyonel açıdan üstün insansız hava
-          platformları.</p>
+        <p class="section-desc">Her görev profili için özel olarak tasarlanmış, operasyonel açıdan üstün insansız hava platformları.</p>
       </div>
       <div class="systems-grid">
-        <div class="system-card reveal-up" style="--delay: 0s">
+
+        <div class="system-card reveal-up" style="--delay:0s">
           <div class="system-card-header">
             <div class="system-badge">TAARRUZ</div>
             <div class="system-id">RZ-01</div>
           </div>
           <div class="system-icon">
             <svg viewBox="0 0 80 80" fill="none">
-              <path d="M40 10 L70 50 L40 42 L10 50 Z" stroke="#00d4ff" stroke-width="1.5" fill="rgba(0,212,255,0.05)" />
-              <path d="M40 42 L40 70" stroke="#00d4ff" stroke-width="1" stroke-dasharray="3,3" />
-              <circle cx="40" cy="40" r="4" fill="#00d4ff" />
+              <path d="M40 10 L70 50 L40 42 L10 50 Z" stroke="#e63229" stroke-width="1.5" fill="rgba(230,50,41,0.05)"/>
+              <path d="M40 42 L40 70" stroke="#e63229" stroke-width="1" stroke-dasharray="3,3"/>
+              <circle cx="40" cy="40" r="4" fill="#e63229"/>
             </svg>
           </div>
           <h3 class="system-name">RÜZGAR <span class="accent">TAARRUZ</span></h3>
-          <p class="system-desc">Yüksek hassasiyetli silah sistemleri ile donatılmış ağır taarruz platformu. Gelişmiş
-            hedefleme ve anlık imha yeteneği.</p>
+          <p class="system-desc">Yüksek hassasiyetli silah sistemleri ile donatılmış ağır taarruz platformu. Gelişmiş hedefleme ve anlık imha yeteneği.</p>
           <ul class="system-features">
             <li>Lazer güdümlü füze entegrasyonu</li>
             <li>30mm topçu sistemi</li>
@@ -219,22 +200,21 @@
           <a href="#contact" class="system-btn">Detaylı Bilgi <span>→</span></a>
         </div>
 
-        <div class="system-card system-card-featured reveal-up" style="--delay: 0.15s">
+        <div class="system-card system-card-featured reveal-up" style="--delay:0.15s">
           <div class="system-card-header">
-            <div class="system-badge system-badge-gold">ÇOKLU GÖREV</div>
+            <div class="system-badge system-badge-blue">ÇOKLU GÖREV</div>
             <div class="system-id">RZ-07</div>
           </div>
           <div class="system-icon">
             <svg viewBox="0 0 80 80" fill="none">
-              <polygon points="40,5 75,62 5,62" stroke="#ff6b2b" stroke-width="1.5" fill="rgba(255,107,43,0.05)" />
-              <polygon points="40,18 62,52 18,52" stroke="#ff6b2b" stroke-width="1" fill="rgba(255,107,43,0.1)" />
-              <circle cx="40" cy="40" r="5" fill="#ff6b2b" />
-              <circle cx="40" cy="40" r="12" stroke="#ff6b2b" stroke-width="0.5" opacity="0.4" />
+              <polygon points="40,5 75,62 5,62" stroke="#2a5ba8" stroke-width="1.5" fill="rgba(42,91,168,0.05)"/>
+              <polygon points="40,18 62,52 18,52" stroke="#2a5ba8" stroke-width="1" fill="rgba(42,91,168,0.1)"/>
+              <circle cx="40" cy="40" r="5" fill="#2a5ba8"/>
+              <circle cx="40" cy="40" r="12" stroke="#2a5ba8" stroke-width="0.5" opacity="0.4"/>
             </svg>
           </div>
-          <h3 class="system-name">RÜZGAR <span style="color:#ff6b2b">APEX</span></h3>
-          <p class="system-desc">Amiral gemisi platform. Keşif, gözetleme, taarruz ve elektronik harp yeteneklerini tek
-            gövdede birleştirir.</p>
+          <h3 class="system-name">RÜZGAR <span style="color:#2a5ba8">APEX</span></h3>
+          <p class="system-desc">Amiral gemisi platform. Keşif, gözetleme, taarruz ve elektronik harp yeteneklerini tek gövdede birleştirir.</p>
           <ul class="system-features">
             <li>Tam otonom görev icra</li>
             <li>Çoklu silah yükü</li>
@@ -245,25 +225,24 @@
           <div class="featured-glow"></div>
         </div>
 
-        <div class="system-card reveal-up" style="--delay: 0.3s">
+        <div class="system-card reveal-up" style="--delay:0.3s">
           <div class="system-card-header">
             <div class="system-badge system-badge-green">KEŞİF</div>
             <div class="system-id">RZ-03</div>
           </div>
           <div class="system-icon">
             <svg viewBox="0 0 80 80" fill="none">
-              <circle cx="40" cy="35" r="20" stroke="#00ff88" stroke-width="1.5" fill="rgba(0,255,136,0.05)" />
-              <circle cx="40" cy="35" r="10" stroke="#00ff88" stroke-width="1" opacity="0.5" />
-              <line x1="40" y1="5" x2="40" y2="15" stroke="#00ff88" stroke-width="1.5" />
-              <line x1="40" y1="55" x2="40" y2="75" stroke="#00ff88" stroke-width="1.5" />
-              <line x1="10" y1="35" x2="20" y2="35" stroke="#00ff88" stroke-width="1.5" />
-              <line x1="60" y1="35" x2="70" y2="35" stroke="#00ff88" stroke-width="1.5" />
-              <circle cx="40" cy="35" r="3" fill="#00ff88" />
+              <circle cx="40" cy="35" r="20" stroke="#00e87a" stroke-width="1.5" fill="rgba(0,232,122,0.05)"/>
+              <circle cx="40" cy="35" r="10" stroke="#00e87a" stroke-width="1" opacity="0.5"/>
+              <line x1="40" y1="5"  x2="40" y2="15" stroke="#00e87a" stroke-width="1.5"/>
+              <line x1="40" y1="55" x2="40" y2="75" stroke="#00e87a" stroke-width="1.5"/>
+              <line x1="10" y1="35" x2="20" y2="35" stroke="#00e87a" stroke-width="1.5"/>
+              <line x1="60" y1="35" x2="70" y2="35" stroke="#00e87a" stroke-width="1.5"/>
+              <circle cx="40" cy="35" r="3" fill="#00e87a"/>
             </svg>
           </div>
-          <h3 class="system-name">RÜZGAR <span style="color:#00ff88">GÖZCÜ</span></h3>
-          <p class="system-desc">Ultra uzun menzilli gözetleme ve istihbarat platformu. Termal ve optik kamera
-            sistemleri ile 24/7 keşif kapasitesi.</p>
+          <h3 class="system-name">RÜZGAR <span style="color:#00e87a">GÖZCÜ</span></h3>
+          <p class="system-desc">Ultra uzun menzilli gözetleme ve istihbarat platformu. Termal ve optik kamera sistemleri ile 24/7 keşif kapasitesi.</p>
           <ul class="system-features">
             <li>30km optik kamera menzili</li>
             <li>Termal görüntüleme</li>
@@ -271,6 +250,7 @@
           </ul>
           <a href="#contact" class="system-btn">Detaylı Bilgi <span>→</span></a>
         </div>
+
       </div>
     </div>
   </section>
@@ -290,56 +270,32 @@
         <div class="specs-data reveal-right">
           <div class="spec-row">
             <div class="spec-label">Azami Hız</div>
-            <div class="spec-bar-wrap">
-              <div class="spec-bar" data-width="88">
-                <div class="spec-bar-fill"></div>
-              </div>
-            </div>
+            <div class="spec-bar-wrap"><div class="spec-bar" data-width="88"><div class="spec-bar-fill"></div></div></div>
             <div class="spec-value">350 km/s</div>
           </div>
           <div class="spec-row">
             <div class="spec-label">Operasyon İrtifası</div>
-            <div class="spec-bar-wrap">
-              <div class="spec-bar" data-width="95">
-                <div class="spec-bar-fill"></div>
-              </div>
-            </div>
+            <div class="spec-bar-wrap"><div class="spec-bar" data-width="95"><div class="spec-bar-fill"></div></div></div>
             <div class="spec-value">12.000 m</div>
           </div>
           <div class="spec-row">
             <div class="spec-label">Havada Kalma Süresi</div>
-            <div class="spec-bar-wrap">
-              <div class="spec-bar" data-width="70">
-                <div class="spec-bar-fill"></div>
-              </div>
-            </div>
+            <div class="spec-bar-wrap"><div class="spec-bar" data-width="70"><div class="spec-bar-fill"></div></div></div>
             <div class="spec-value">42 Saat</div>
           </div>
           <div class="spec-row">
             <div class="spec-label">Silah Yük Kapasitesi</div>
-            <div class="spec-bar-wrap">
-              <div class="spec-bar" data-width="80">
-                <div class="spec-bar-fill"></div>
-              </div>
-            </div>
+            <div class="spec-bar-wrap"><div class="spec-bar" data-width="80"><div class="spec-bar-fill"></div></div></div>
             <div class="spec-value">1.500 kg</div>
           </div>
           <div class="spec-row">
             <div class="spec-label">Otonom Kapasite</div>
-            <div class="spec-bar-wrap">
-              <div class="spec-bar" data-width="97">
-                <div class="spec-bar-fill"></div>
-              </div>
-            </div>
+            <div class="spec-bar-wrap"><div class="spec-bar" data-width="97"><div class="spec-bar-fill"></div></div></div>
             <div class="spec-value">%97</div>
           </div>
           <div class="spec-row">
             <div class="spec-label">İletişim Menzili</div>
-            <div class="spec-bar-wrap">
-              <div class="spec-bar" data-width="100">
-                <div class="spec-bar-fill"></div>
-              </div>
-            </div>
+            <div class="spec-bar-wrap"><div class="spec-bar" data-width="100"><div class="spec-bar-fill"></div></div></div>
             <div class="spec-value">Sınırsız (Uydu)</div>
           </div>
         </div>
@@ -347,8 +303,106 @@
     </div>
   </section>
 
+  <!-- ========== TEAM ========== -->
+  <section id="team" class="section section-dark">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">// EKİBİMİZ</span>
+        <h2 class="section-title">Uzman <span class="accent">Kadro</span></h2>
+        <p class="section-desc">Türkiye'nin en ileri savunma teknolojilerini geliştiren vizyon sahibi mühendisler ve liderler.</p>
+      </div>
+      <div class="team-grid">
+
+        <div class="team-card reveal-up" style="--delay:0s">
+          <div class="team-photo-wrap">
+            <img src="assets/team_1.png" alt="Ahmet Kaya" class="team-photo" />
+            <div class="team-photo-ring"></div>
+            <div class="team-photo-ring-2"></div>
+          </div>
+          <h3 class="team-name">Ahmet Kaya</h3>
+          <div class="team-title">Genel Müdür</div>
+          <div class="team-dept">Yönetim Kurulu</div>
+          <div class="team-divider"></div>
+          <p class="team-desc">20 yılı aşkın savunma sanayii deneyimiyle RÜZGAR UAV'ı uluslararası arenaya taşıyor.</p>
+          <div class="team-card-bg-num">01</div>
+        </div>
+
+        <div class="team-card reveal-up" style="--delay:0.1s">
+          <div class="team-photo-wrap">
+            <img src="assets/team_2.png" alt="Zeynep Arslan" class="team-photo" />
+            <div class="team-photo-ring"></div>
+            <div class="team-photo-ring-2"></div>
+          </div>
+          <h3 class="team-name">Zeynep Arslan</h3>
+          <div class="team-title">Baş Mühendis</div>
+          <div class="team-dept">Ar-Ge & İnovasyon</div>
+          <div class="team-divider"></div>
+          <p class="team-desc">Yapay zeka destekli otonom navigasyon sistemlerinin mimarı. 15+ patent sahibi.</p>
+          <div class="team-card-bg-num">02</div>
+        </div>
+
+        <div class="team-card reveal-up" style="--delay:0.2s">
+          <div class="team-photo-wrap">
+            <img src="assets/team_3.png" alt="Murat Demir" class="team-photo" />
+            <div class="team-photo-ring"></div>
+            <div class="team-photo-ring-2"></div>
+          </div>
+          <h3 class="team-name">Murat Demir</h3>
+          <div class="team-title">Yazılım Mimarı</div>
+          <div class="team-dept">Yazılım Mühendisliği</div>
+          <div class="team-divider"></div>
+          <p class="team-desc">Gerçek zamanlı görev yönetim sistemlerini ve uçuş kontrol yazılımını geliştiriyor.</p>
+          <div class="team-card-bg-num">03</div>
+        </div>
+
+        <div class="team-card reveal-up" style="--delay:0.3s">
+          <div class="team-photo-wrap">
+            <img src="assets/team_4.png" alt="Selin Öztürk" class="team-photo" />
+            <div class="team-photo-ring"></div>
+            <div class="team-photo-ring-2"></div>
+          </div>
+          <h3 class="team-name">Selin Öztürk</h3>
+          <div class="team-title">Sistem Entegrasyon Direktörü</div>
+          <div class="team-dept">Sistem Mühendisliği</div>
+          <div class="team-divider"></div>
+          <p class="team-desc">Kompleks çoklu platform entegrasyon projelerini yöneterek sınırları aşıyor.</p>
+          <div class="team-card-bg-num">04</div>
+        </div>
+
+        <div class="team-card reveal-up" style="--delay:0.4s">
+          <div class="team-photo-wrap">
+            <div class="team-avatar-circle">KY</div>
+            <div class="team-photo-ring"></div>
+            <div class="team-photo-ring-2"></div>
+          </div>
+          <h3 class="team-name">Kerem Yıldız</h3>
+          <div class="team-title">Uçuş Test Mühendisi</div>
+          <div class="team-dept">Test & Doğrulama</div>
+          <div class="team-divider"></div>
+          <p class="team-desc">500+ saatlik test uçuş deneyimiyle platformların güvenilirliğini garanti altına alıyor.</p>
+          <div class="team-card-bg-num">05</div>
+        </div>
+
+        <div class="team-card reveal-up" style="--delay:0.5s">
+          <div class="team-photo-wrap">
+            <img src="assets/team_6.png" alt="Fatma Çelik" class="team-photo" />
+            <div class="team-photo-ring"></div>
+            <div class="team-photo-ring-2"></div>
+          </div>
+          <h3 class="team-name">Fatma Çelik</h3>
+          <div class="team-title">Siber Güvenlik Direktörü</div>
+          <div class="team-dept">Güvenlik & Kriptoloji</div>
+          <div class="team-divider"></div>
+          <p class="team-desc">Kritik sistemlerin siber tehditlere karşı korunmasında NATO standartlarını aşıyor.</p>
+          <div class="team-card-bg-num">06</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ========== GALLERY ========== -->
-  <section id="gallery" class="section section-dark">
+  <section id="gallery" class="section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">// GALERİ</span>
@@ -359,7 +413,7 @@
           <img src="assets/siha_formation.png" alt="SIHA Formasyon Uçuşu" loading="lazy" />
           <div class="gallery-overlay">
             <span class="gallery-tag">FORMASYON UÇUŞU</span>
-            <span class="gallery-date">2025 − GÜNEYDENİZ OPERASYONu</span>
+            <span class="gallery-date">2025 − GÜNEYDENİZ OPERASYONU</span>
           </div>
         </div>
         <div class="gallery-item reveal-up" style="--delay:0.1s">
@@ -380,7 +434,7 @@
           <img src="assets/siha_cockpit.png" alt="Kontrol Merkezi" loading="lazy" />
           <div class="gallery-overlay">
             <span class="gallery-tag">KONTROL MERKEZİ</span>
-            <span class="gallery-date">GYS — GENELKurmay</span>
+            <span class="gallery-date">GYS — GENELKURMAY</span>
           </div>
         </div>
       </div>
@@ -388,20 +442,17 @@
   </section>
 
   <!-- ========== RADAR SECTION ========== -->
-  <section id="radar-section" class="section">
+  <section id="radar-section" class="section section-dark">
     <div class="container">
       <div class="radar-layout">
         <div class="radar-wrap reveal-left">
           <canvas id="radarCanvas" width="400" height="400"></canvas>
-          <div class="radar-center-label">
-            <span class="radar-status">AKTİF TARAMA</span>
-          </div>
+          <div class="radar-center-label"><span class="radar-status">AKTİF TARAMA</span></div>
         </div>
         <div class="radar-info reveal-right">
           <span class="section-tag">// GÖREV DURUMU</span>
           <h2 class="section-title">Gerçek Zamanlı <span class="accent">İzleme</span></h2>
-          <p>RÜZGAR sistemleri, 24 saat kesintisiz radar izleme ve anlık durum raporlama kapasitesi ile donatılmıştır.
-          </p>
+          <p>RÜZGAR sistemleri, 24 saat kesintisiz radar izleme ve anlık durum raporlama kapasitesi ile donatılmıştır.</p>
           <div class="radar-stats">
             <div class="radar-stat">
               <div class="radar-stat-num accent">247</div>
@@ -423,7 +474,7 @@
   </section>
 
   <!-- ========== CONTACT ========== -->
-  <section id="contact" class="section section-dark">
+  <section id="contact" class="section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">// İLETİŞİM</span>
@@ -445,8 +496,7 @@
             </div>
             <div class="form-group">
               <label for="emailAddr">E-posta Adresi</label>
-              <input type="email" id="emailAddr" name="emailAddr" placeholder="m.yilmaz@kurumadi.gov.tr"
-                autocomplete="off" />
+              <input type="email" id="emailAddr" name="emailAddr" placeholder="m.yilmaz@kurumadi.gov.tr" autocomplete="off" />
             </div>
             <div class="form-group">
               <label for="subject">Konu</label>
@@ -454,21 +504,18 @@
                 <option value="">Konu seçin</option>
                 <option value="satin-alma">Satın Alma Talebi</option>
                 <option value="teknik">Teknik Destek</option>
-                <option value="ihracat">İhracat & Ortaklık</option>
+                <option value="ihracat">İhracat &amp; Ortaklık</option>
                 <option value="demo">Demo Talebi</option>
                 <option value="diger">Diğer</option>
               </select>
             </div>
             <div class="form-group">
               <label for="message">Mesaj</label>
-              <textarea id="message" name="message" rows="5"
-                placeholder="Görev gereksinimlerinizi kısaca açıklayın..."></textarea>
+              <textarea id="message" name="message" rows="5" placeholder="Görev gereksinimlerinizi kısaca açıklayın..."></textarea>
             </div>
             <button type="submit" class="btn btn-primary btn-full" id="submitFormBtn">
-              <span id="submitBtnText">MESAJı GÖNDER</span>
-              <svg class="btn-arrow" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
+              <span id="submitBtnText">MESAJI GÖNDER</span>
+              <svg class="btn-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
           </form>
         </div>
@@ -477,14 +524,14 @@
             <div class="cinfo-icon">📍</div>
             <div>
               <strong>Merkez</strong>
-              <p>FIRAT TEKNOKENT, ELAZIĞ, TÜRKİYE</p>
+              <p>Savunma Sanayi Teknoparkı, Ankara, Türkiye</p>
             </div>
           </div>
           <div class="contact-info-card">
             <div class="cinfo-icon">📞</div>
             <div>
               <strong>Telefon</strong>
-              <p>+90 532 444 44 44</p>
+              <p>+90 (312) 000 00 00</p>
             </div>
           </div>
           <div class="contact-info-card">
@@ -509,19 +556,14 @@
   <!-- ========== FOOTER ========== -->
   <footer id="footer">
     <div class="footer-inner">
-      <div class="footer-logo">
-        <div class="nav-logo-icon">
-          <svg viewBox="0 0 40 40" fill="none">
-            <polygon points="20,2 38,30 2,30" stroke="#00d4ff" stroke-width="1.5" fill="none" />
-            <circle cx="20" cy="20" r="3" fill="#00d4ff" />
-          </svg>
-        </div>
+      <div class="nav-logo">
+        <img src="assets/logo.png" alt="RÜZGAR UAV" class="nav-logo-img" onerror="this.style.display='none'" />
         <span class="nav-logo-text">RÜZGAR<span class="accent">UAV</span></span>
       </div>
       <p class="footer-tagline">Gökyüzüne Hâkimiyet. Her Koşulda. Her Zaman.</p>
       <div class="footer-divider"></div>
       <div class="footer-bottom">
-        <span>© 2025 RÜZGAR UAV - Tüm hakları saklıdır.</span>
+        <span>© 2025 RÜZGAR UAV A.Ş. Tüm hakları saklıdır.</span>
         <span>GİZLİLİK DÜZEYİ: AÇIK</span>
       </div>
     </div>
@@ -529,5 +571,4 @@
 
   <script src="script.js"></script>
 </body>
-
 </html>

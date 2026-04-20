@@ -106,7 +106,7 @@ navLinks.querySelectorAll('a').forEach(a => {
       vx: (Math.random() - 0.5) * 0.3,
       vy: (Math.random() - 0.5) * 0.3,
       alpha: Math.random() * 0.5 + 0.1,
-      color: Math.random() > 0.7 ? '#ff6b2b' : '#00d4ff'
+      color: Math.random() > 0.6 ? '#e63229' : '#2a5ba8'
     };
   }
   particles = Array.from({ length: NUM }, mkParticle);
@@ -126,7 +126,7 @@ navLinks.querySelectorAll('a').forEach(a => {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(q.x, q.y);
-          ctx.strokeStyle = `rgba(0,212,255,${0.12 * (1 - d / 130)})`;
+          ctx.strokeStyle = `rgba(42,91,168,${0.15 * (1 - d / 130)})`;
           ctx.lineWidth = 0.5;
           ctx.stroke();
         }
@@ -258,7 +258,7 @@ function initRadar() {
     [0.25, 0.5, 0.75, 1].forEach(f => {
       ctx.beginPath();
       ctx.arc(cx, cy, R * f, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(0,212,255,0.12)';
+      ctx.strokeStyle = 'rgba(26,58,107,0.25)';
       ctx.lineWidth = 1;
       ctx.stroke();
     });
@@ -267,7 +267,7 @@ function initRadar() {
     ctx.beginPath();
     ctx.moveTo(cx - R, cy); ctx.lineTo(cx + R, cy);
     ctx.moveTo(cx, cy - R); ctx.lineTo(cx, cy + R);
-    ctx.strokeStyle = 'rgba(0,212,255,0.08)';
+    ctx.strokeStyle = 'rgba(26,58,107,0.15)';
     ctx.stroke();
 
     // sweep gradient
@@ -282,9 +282,9 @@ function initRadar() {
     ctx.translate(cx, cy);
     ctx.rotate(angle);
     const sweepGrad = ctx.createLinearGradient(0, 0, R, 0);
-    sweepGrad.addColorStop(0,   'rgba(0,212,255,0.35)');
-    sweepGrad.addColorStop(0.4, 'rgba(0,212,255,0.08)');
-    sweepGrad.addColorStop(1,   'rgba(0,212,255,0)');
+    sweepGrad.addColorStop(0,   'rgba(230,50,41,0.4)');
+    sweepGrad.addColorStop(0.4, 'rgba(230,50,41,0.10)');
+    sweepGrad.addColorStop(1,   'rgba(230,50,41,0)');
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.arc(0, 0, R, -0.25, 0.01);
@@ -295,7 +295,7 @@ function initRadar() {
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.lineTo(R, 0);
-    ctx.strokeStyle = 'rgba(0,212,255,0.8)';
+    ctx.strokeStyle = 'rgba(230,50,41,0.9)';
     ctx.lineWidth = 1.5;
     ctx.stroke();
     ctx.restore();
@@ -310,11 +310,11 @@ function initRadar() {
         const by = cy + Math.sin(b.theta) * b.r;
         ctx.beginPath();
         ctx.arc(bx, by, b.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0,255,136,${b.alpha})`;
+        ctx.fillStyle = `rgba(0,232,122,${b.alpha})`;
         ctx.fill();
         ctx.beginPath();
         ctx.arc(bx, by, b.size + 4, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(0,255,136,${b.alpha * 0.4})`;
+        ctx.strokeStyle = `rgba(0,232,122,${b.alpha * 0.4})`;
         ctx.lineWidth = 1;
         ctx.stroke();
         b.alpha -= 0.003;
