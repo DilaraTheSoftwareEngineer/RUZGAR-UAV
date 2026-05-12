@@ -12,7 +12,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=5" />
+  <!-- Three.js for 3D UAV Viewer -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 
 <body>
@@ -60,7 +62,6 @@
     <div class="hero-grid-overlay"></div>
     <div class="hero-scanline"></div>
 
-    <!-- FLEX INNER: content + image side by side, no overflow -->
     <div class="hero-inner">
       <div class="hero-content">
         <div class="hero-badge">
@@ -91,14 +92,14 @@
           </div>
         </div>
         <div class="hero-buttons">
-          <a href="#systems" class="btn btn-primary">
-            <span>SİSTEMLERİ KEŞFET</span>
+          <button class="btn btn-primary" id="heroCtaBtn">
+            <span>MİSYONU BAŞLAT</span>
             <svg class="btn-arrow" viewBox="0 0 24 24">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
-          </a>
-          <a href="#gallery" class="btn btn-ghost">
-            <span>GALERİYİ GÖR</span>
+          </button>
+          <a href="#systems" class="btn btn-ghost">
+            <span>SİSTEMLERİ KEŞFET</span>
           </a>
         </div>
       </div>
@@ -110,7 +111,7 @@
         <img src="assets/siha_hero.png" alt="RÜZGAR SIHA" class="hero-drone-img" />
         <div class="hero-glow"></div>
       </div>
-    </div><!-- /hero-inner -->
+    </div>
 
     <div class="hero-hud-left">
       <div class="hud-line"><span class="hud-label">ALT</span><span class="hud-val" id="hudAlt">12.400 m</span></div>
@@ -316,19 +317,17 @@
             <div class="spec-value">1.500 kg</div>
           </div>
           <div class="spec-row">
-            <div class="spec-label">Otonom Kapasite</div>
-            <div class="spec-row">
-              <div class="spec-label">İletişim Menzili</div>
-              <div class="spec-bar-wrap">
-                <div class="spec-bar" data-width="100">
-                  <div class="spec-bar-fill"></div>
-                </div>
+            <div class="spec-label">İletişim Menzili</div>
+            <div class="spec-bar-wrap">
+              <div class="spec-bar" data-width="100">
+                <div class="spec-bar-fill"></div>
               </div>
-              <div class="spec-value">Sınırsız (Uydu)</div>
             </div>
+            <div class="spec-value">Sınırsız (Uydu)</div>
           </div>
         </div>
       </div>
+    </div>
   </section>
 
   <!-- ========== TEAM ========== -->
@@ -337,149 +336,24 @@
       <div class="section-header">
         <span class="section-tag">// EKİBİMİZ</span>
         <h2 class="section-title">Uzman <span class="accent-red">Kadro</span></h2>
-        <p class="section-desc">Türkiye'nin en ileri savunma teknolojilerini hayata geçiren vizyon sahibi mühendisler ve
-          liderler.</p>
       </div>
-
       <div class="team-section-wrap">
-
-        <!-- ── YÖNETİM KURULU ── -->
         <div class="dept-divider">
           <span class="dept-divider-label">// <span>YÖNETİM KURULU</span></span>
           <div class="dept-divider-line"></div>
         </div>
-
-        <!-- 01 — Ahmet Kaya : fotoğraf SOL -->
         <div class="team-member-row">
           <div class="tm-photo-wrap reveal-left">
             <img src="assets/team_1.png" alt="Ahmet Kaya" class="tm-photo" />
             <div class="tm-ring"></div>
-            <div class="tm-ring-2"></div>
           </div>
-          <div class="tm-info reveal-right" style="--delay:0.1s">
-            <span class="tm-dept-tag">// YÖNETİM KURULU</span>
+          <div class="tm-info reveal-right">
             <h3 class="tm-name">Ahmet Kaya</h3>
             <div class="tm-role">Genel Müdür</div>
-            <div class="tm-divider"></div>
-            <p class="tm-desc">20 yılı aşkın savunma sanayii deneyimiyle RÜZGAR UAV'ı uluslararası arenaya taşıyan
-              firmanın kurucusu. Stratejik ortaklıklar ve Ar-Ge yatırımlarıyla Türk savunma sanayiinin öncüsü olmayı
-              sürdürüyor.</p>
-            <div class="tm-number">01</div>
+            <p class="tm-desc">Savunma sanayii deneyimiyle RÜZGAR UAV'ın kurucusu.</p>
           </div>
         </div>
-
-        <!-- ── MEKANİK MÜHENDİSLİK ── -->
-        <div class="dept-divider">
-          <span class="dept-divider-label">// <span>MEKANİK MÜHENDİSLİK</span></span>
-          <div class="dept-divider-line"></div>
-        </div>
-
-        <!-- 02 — Murat Demir : fotoğraf SAĞ -->
-        <div class="team-member-row team-member-row-reverse">
-          <div class="tm-photo-wrap reveal-right">
-            <img src="assets/team_3.png" alt="Murat Demir" class="tm-photo" />
-            <div class="tm-ring"></div>
-            <div class="tm-ring-2"></div>
-          </div>
-          <div class="tm-info reveal-left" style="--delay:0.1s">
-            <span class="tm-dept-tag">// MEKANİK MÜHENDİSLİK</span>
-            <h3 class="tm-name">Murat Demir</h3>
-            <div class="tm-role">Baş Makine Mühendisi</div>
-            <div class="tm-divider"></div>
-            <p class="tm-desc">İnsansız hava aracı gövde ve mekanik sistem tasarımında uzman. Hafif karbon fiber
-              yapılardan ağır yük platformlarına geniş portföyle Türk SIHA sektöründe önemli çalışmalara imza attı.</p>
-            <div class="tm-number">02</div>
-          </div>
-        </div>
-
-        <!-- 03 — Kerem Yıldız : fotoğraf SOL -->
-        <div class="team-member-row">
-          <div class="tm-photo-wrap reveal-left">
-            <img src="assets/team_5.png" alt="Kerem Yıldız" class="tm-photo" />
-            <div class="tm-ring"></div>
-            <div class="tm-ring-2"></div>
-          </div>
-          <div class="tm-info reveal-right" style="--delay:0.1s">
-            <span class="tm-dept-tag">// MEKANİK MÜHENDİSLİK</span>
-            <h3 class="tm-name">Kerem Yıldız</h3>
-            <div class="tm-role">Yapısal Analiz Uzmanı</div>
-            <div class="tm-divider"></div>
-            <p class="tm-desc">Karbon fiber kompozit yapılar, yorulma analizi ve sonlu elemanlar yöntemiyle mühendislik
-              sınırlarını zorlayan uzman. Platformların ağır ortamlardaki dayanıklılığını garanti altına alıyor.</p>
-            <div class="tm-number">03</div>
-          </div>
-        </div>
-
-        <!-- ── ELEKTRONİK & AVİYONİK ── -->
-        <div class="dept-divider">
-          <span class="dept-divider-label">// <span>ELEKTRONİK &amp; AVİYONİK</span></span>
-          <div class="dept-divider-line"></div>
-        </div>
-
-        <!-- 04 — Zeynep Arslan : fotoğraf SAĞ -->
-        <div class="team-member-row team-member-row-reverse">
-          <div class="tm-photo-wrap reveal-right">
-            <img src="assets/team_2.png" alt="Zeynep Arslan" class="tm-photo" />
-            <div class="tm-ring"></div>
-            <div class="tm-ring-2"></div>
-          </div>
-          <div class="tm-info reveal-left" style="--delay:0.1s">
-            <span class="tm-dept-tag">// ELEKTRONİK SİSTEMLER</span>
-            <h3 class="tm-name">Zeynep Arslan</h3>
-            <div class="tm-role">Baş Elektronik Mühendisi</div>
-            <div class="tm-divider"></div>
-            <p class="tm-desc">Aviyonik ve elektronik harp sistemleri tasarımında 15+ patent sahibi. Yapay zeka destekli
-              hedef tanıma ve elektronik karıştırma sistemlerinin baş mimarı. NATO uyumlu çalışmalarıyla öne çıkıyor.
-            </p>
-            <div class="tm-number">04</div>
-          </div>
-        </div>
-
-        <!-- 05 — Selin Öztürk : fotoğraf SOL -->
-        <div class="team-member-row">
-          <div class="tm-photo-wrap reveal-left">
-            <img src="assets/team_4.png" alt="Selin Öztürk" class="tm-photo" />
-            <div class="tm-ring"></div>
-            <div class="tm-ring-2"></div>
-          </div>
-          <div class="tm-info reveal-right" style="--delay:0.1s">
-            <span class="tm-dept-tag">// AVİYONİK</span>
-            <h3 class="tm-name">Selin Öztürk</h3>
-            <div class="tm-role">Aviyonik Sistem Direktörü</div>
-            <div class="tm-divider"></div>
-            <p class="tm-desc">Uçuş kontrol sistemleri, GPS/INS sensör entegrasyonu ve otopilot yazılımı üzerine
-              yoğunlaşan direktör. Çoklu platform aviyonik mimarisi tasarımında dünya standartlarında çalışmalar
-              yürütüyor.</p>
-            <div class="tm-number">05</div>
-          </div>
-        </div>
-
-        <!-- ── YAZILIM & SİBER GÜVENLİK ── -->
-        <div class="dept-divider">
-          <span class="dept-divider-label">// <span>YAZILIM &amp; SİBER GÜVENLİK</span></span>
-          <div class="dept-divider-line"></div>
-        </div>
-
-        <!-- 06 — Fatma Çelik : fotoğraf SAĞ -->
-        <div class="team-member-row team-member-row-reverse">
-          <div class="tm-photo-wrap reveal-right">
-            <img src="assets/team_6.png" alt="Fatma Çelik" class="tm-photo" />
-            <div class="tm-ring"></div>
-            <div class="tm-ring-2"></div>
-          </div>
-          <div class="tm-info reveal-left" style="--delay:0.1s">
-            <span class="tm-dept-tag">// SİBER GÜVENLİK</span>
-            <h3 class="tm-name">Fatma Çelik</h3>
-            <div class="tm-role">Siber Güvenlik Direktörü</div>
-            <div class="tm-divider"></div>
-            <p class="tm-desc">Kritik savunma sistemlerinin siber tehditlere karşı korunmasında NATO standartlarını aşan
-              çözümler geliştiriyor. Şifreli haberleşme protokolleri ve güvenlik duvarı mimarilerinde sektörde tanınan
-              bir isim.</p>
-            <div class="tm-number">06</div>
-          </div>
-        </div>
-
-      </div><!-- /team-section-wrap -->
+      </div>
     </div>
   </section>
 
@@ -489,189 +363,35 @@
       <div class="section-header">
         <span class="section-tag">// GALERİ</span>
         <h2 class="section-title">Görev <span class="accent">Görüntüleri</span></h2>
-        <p class="section-desc">Operasyonel sahadan kontrol merkezine: RÜZGAR UAV dünyasına bir bakış.</p>
       </div>
-
-      <!-- ── ÖNCÜ FOTOĞRAFLAR ── -->
-      <div class="gallery-grid gallery-featured reveal-up" style="--delay:0s; height: 340px;">
-        <div class="gallery-item" style="height:340px">
-          <img src="assets/siha_formation.png" alt="SIHA Formasyon Uçuşu" loading="lazy" />
-          <div class="gallery-overlay">
-            <span class="gallery-tag">FORMASYON UÇUŞU</span>
-            <span class="gallery-date">2025 — Güney Denizi Operasyonu</span>
-          </div>
-        </div>
-        <div class="gallery-item" style="height:340px">
-          <img src="assets/siha_hero.png" alt="SIHA Gece Operasyonu" loading="lazy" />
-          <div class="gallery-overlay">
-            <span class="gallery-tag">GECE OPERASYONU</span>
-            <span class="gallery-date">2025 — Kuzey Görev Sahası</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── FOTOĞRAF GALERİSİ ── -->
-      <div class="gallery-section-label reveal-up" style="--delay:0.1s">
-        <span>// FOTOĞRAF GALERİSİ</span>
-        <div class="gallery-section-line"></div>
-      </div>
-
-      <div class="gallery-grid reveal-up" style="--delay:0.15s; height:420px; grid-template-columns: 1fr 1fr 1fr 1fr;">
-        <div class="gallery-item gallery-item-tall" style="grid-row: span 2">
-          <img src="assets/siha_cockpit.png" alt="Kontrol Merkezi" loading="lazy" />
-          <div class="gallery-overlay">
-            <span class="gallery-tag">KONTROL MERKEZİ</span>
-            <span class="gallery-date">GYS — Görev Yönetim Sistemi</span>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/siha_tech.png" alt="SIHA Teknik Detay" loading="lazy" />
-          <div class="gallery-overlay">
-            <span class="gallery-tag">TEKNİK DETAY</span>
-            <span class="gallery-date">UAV-47 BLADE Serisi</span>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/siha_hero.png" alt="SIHA Taarruz Konfigürasyonu" loading="lazy" />
-          <div class="gallery-overlay">
-            <span class="gallery-tag">TAARRUZ KONFİGÜRASYONU</span>
-            <span class="gallery-date">RZ-01 TAARRUZ Platformu</span>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/siha_formation.png" alt="Çoklu Platform" loading="lazy" />
-          <div class="gallery-overlay">
-            <span class="gallery-tag">ÇOKLU PLATFORM</span>
-            <span class="gallery-date">Koordineli Operasyon</span>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/siha_tech.png" alt="Silah Entegrasyonu" loading="lazy" />
-          <div class="gallery-overlay">
-            <span class="gallery-tag">SİLAH ENTEGRASYONU</span>
-            <span class="gallery-date">Füze Sistemleri — 2025</span>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/siha_cockpit.png" alt="Görev Briefing" loading="lazy" />
-          <div class="gallery-overlay">
-            <span class="gallery-tag">GÖREV BRİEFİNG</span>
-            <span class="gallery-date">Operasyon Planlama Merkezi</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========== RADAR ========== -->
-  <section id="radar-section" class="section section-dark">
-    <div class="container">
-      <div class="radar-layout">
-        <div class="radar-wrap reveal-left">
-          <canvas id="radarCanvas" width="380" height="380"></canvas>
-          <div class="radar-center-label">AKTİF TARAMA</div>
-        </div>
-        <div class="radar-info reveal-right">
-          <span class="section-tag">// GÖREV DURUMU</span>
-          <h2 class="section-title">Gerçek Zamanlı <span class="accent-red">İzleme</span></h2>
-          <p style="color:var(--text-dim);line-height:1.8;margin:1rem 0 0">RÜZGAR sistemleri, 24 saat kesintisiz radar
-            izleme ve anlık durum raporlama kapasitesi ile donatılmıştır.</p>
-          <div class="radar-stats">
-            <div class="radar-stat">
-              <div class="radar-stat-num">247</div>
-              <div class="radar-stat-label">Aktif Görev</div>
-            </div>
-            <div class="radar-stat">
-              <div class="radar-stat-num">99.8%</div>
-              <div class="radar-stat-label">Sistem Güvenilirliği</div>
-            </div>
-            <div class="radar-stat">
-              <div class="radar-stat-num">15+</div>
-              <div class="radar-stat-label">Ülke Müşterisi</div>
-            </div>
-          </div>
-          <a href="#contact" class="btn btn-primary">İLETİŞİME GEÇ</a>
-        </div>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="assets/siha_formation.png" alt="Galeri 1" /></div>
+        <div class="gallery-item"><img src="assets/siha_hero.png" alt="Galeri 2" /></div>
+        <div class="gallery-item"><img src="assets/siha_tech.png" alt="Galeri 3" /></div>
       </div>
     </div>
   </section>
 
   <!-- ========== CONTACT ========== -->
-  <section id="contact" class="section">
+  <section id="contact" class="section section-dark">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">// İLETİŞİM</span>
-        <h2 class="section-title">Görev <span class="accent">Başlat</span></h2>
-        <p class="section-desc">Savunma sistemleri, ihracat veya teknik iş birliği için bizimle iletişime geçin.</p>
+        <h2 class="section-title">Görev <span class="accent-red">Başlat</span></h2>
       </div>
       <div class="contact-layout">
         <div class="contact-form-wrap reveal-left">
           <form class="contact-form" id="contactForm">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="fullName">Ad Soyad</label>
-                <input type="text" id="fullName" name="fullName" placeholder="Mehmet Yılmaz" autocomplete="off" />
-              </div>
-              <div class="form-group">
-                <label for="orgName">Kurum / Birim</label>
-                <input type="text" id="orgName" name="orgName" placeholder="Savunma Bakanlığı" autocomplete="off" />
-              </div>
+            <div class="form-group">
+              <label for="fullName">Ad Soyad</label>
+              <input type="text" id="fullName" placeholder="Mehmet Yılmaz" />
             </div>
             <div class="form-group">
-              <label for="emailAddr">E-posta Adresi</label>
-              <input type="email" id="emailAddr" name="emailAddr" placeholder="m.yilmaz@kurum.gov.tr"
-                autocomplete="off" />
+              <label for="emailAddr">E-posta</label>
+              <input type="email" id="emailAddr" placeholder="info@ruzgaruav.com.tr" />
             </div>
-            <div class="form-group">
-              <label for="subject">Konu</label>
-              <select id="subject" name="subject">
-                <option value="">Konu seçin</option>
-                <option value="satin-alma">Satın Alma Talebi</option>
-                <option value="teknik">Teknik Destek</option>
-                <option value="ihracat">İhracat &amp; Ortaklık</option>
-                <option value="demo">Demo Talebi</option>
-                <option value="diger">Diğer</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="message">Mesaj</label>
-              <textarea id="message" name="message" rows="5"
-                placeholder="Görev gereksinimlerinizi kısaca açıklayın..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary btn-full" id="submitFormBtn">
-              <span id="submitBtnText">MESAJI GÖNDER</span>
-              <svg class="btn-arrow" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </button>
+            <button type="submit" class="btn btn-primary" id="submitFormBtn">MESAJI GÖNDER</button>
           </form>
-        </div>
-        <div class="contact-info reveal-right">
-          <div class="contact-info-card">
-            <div class="cinfo-icon">📍</div>
-            <div><strong>Merkez</strong>
-              <p>Savunma Sanayi Teknoparkı, Ankara, Türkiye</p>
-            </div>
-          </div>
-          <div class="contact-info-card">
-            <div class="cinfo-icon">📞</div>
-            <div><strong>Telefon</strong>
-              <p>+90 (312) 000 00 00</p>
-            </div>
-          </div>
-          <div class="contact-info-card">
-            <div class="cinfo-icon">✉️</div>
-            <div><strong>E-posta</strong>
-              <p>info@ruzgaruav.com.tr</p>
-            </div>
-          </div>
-          <div class="contact-info-card">
-            <div class="cinfo-icon">🔒</div>
-            <div><strong>Güvenli Kanal</strong>
-              <p>GGS üzerinden şifreli iletişim mevcut</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -688,12 +408,44 @@
       <div class="footer-divider"></div>
       <div class="footer-bottom">
         <span>© 2025 RÜZGAR UAV A.Ş. Tüm hakları saklıdır.</span>
-        <span>GİZLİLİK DÜZEYİ: AÇIK</span>
       </div>
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- ========== 3D UAV MODAL ========== -->
+  <div id="uavModal" class="uav-modal">
+    <div class="uav-modal-overlay"></div>
+    <div class="uav-modal-content">
+      <div class="uav-modal-header">
+        <div class="uav-modal-title">
+          <span class="accent">//</span> 3D SİSTEM ANALİZİ: <span class="accent">RZ-07 APEX</span>
+        </div>
+        <button class="uav-modal-close" id="closeUavModal">KAPAT [ESC]</button>
+      </div>
+
+      <div id="uavCanvasContainer">
+        <!-- Three.js will inject canvas here -->
+        <div class="uav-hud-overlay">
+          <div class="uav-hud-corner tl"></div>
+          <div class="uav-hud-corner tr"></div>
+          <div class="uav-hud-corner bl"></div>
+          <div class="uav-hud-corner br"></div>
+          <div class="uav-hud-data">
+            <div class="hud-data-item">Menzil: <span class="accent">OPTIMAL</span></div>
+            <div class="hud-data-item">Bağlantı: <span class="accent">UYDU (GÜVENLİ)</span></div>
+            <div class="hud-data-item">Koordinat: <span class="accent">39.9333° N, 32.8597° E</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="uav-modal-footer">
+        <div class="uav-controls-hint">Fare ile döndürün • Kaydırarak yakınlaşın</div>
+        <button class="btn btn-primary" id="confirmMissionBtn">MİSYONU ONAYLA</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js?v=5"></script>
 </body>
 
 </html>
