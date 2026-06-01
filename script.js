@@ -241,14 +241,47 @@ function init3DViewer() {
     dl.position.set(10, 10, 10);
     scene.add(dl);
 
+    // 3D Model Loading Logic (GLTFLoader)
     drone = new THREE.Group();
+    scene.add(drone);
+    
+    // Yükleyeceğiniz modelin adı 'model.glb' olmalı ve 'assets/' klasöründe bulunmalı.
+    const modelPath = 'assets/model.glb';
+    
+    if (typeof THREE.GLTFLoader !== 'undefined') {
+      const loader = new THREE.GLTFLoader();
+      loader.load(modelPath, function (gltf) {
+        // Model başarıyla yüklendiğinde
+        drone.add(gltf.scene);
+        
+        // Modeli ortalamak ve ölçeklemek için hesaplamalar
+        const box = new THREE.Box3().setFromObject(gltf.scene);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 5 / maxDim; // Modeli ekrana sığacak şekilde ölçekle
+        
+        gltf.scene.scale.set(scale, scale, scale);
+        gltf.scene.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
+      }, undefined, function (error) {
+        console.warn('Model yüklenemedi, varsayılan şekil çiziliyor. Lütfen modeli assets klasörüne model.glb adıyla ekleyin.', error);
+        createFallbackDrone(drone);
+      });
+    } else {
+      createFallbackDrone(drone);
+    }
+    
+    isInitialized = true;
+  }
+
+  function createFallbackDrone(group) {
     // Fuselage
     const body = new THREE.Mesh(
       new THREE.CylinderGeometry(0.5, 0.3, 4, 12),
       new THREE.MeshPhongMaterial({ color: 0x1a1f2e, shininess: 100 })
     );
     body.rotateX(Math.PI / 2);
-    drone.add(body);
+    group.add(body);
 
     // Wings
     const wings = new THREE.Mesh(
@@ -256,21 +289,18 @@ function init3DViewer() {
       new THREE.MeshPhongMaterial({ color: 0x0a0f19 })
     );
     wings.position.z = 0.5;
-    drone.add(wings);
+    group.add(wings);
 
     // Tail
     const tailMat = new THREE.MeshPhongMaterial({ color: 0x1a1f2e });
     const tail1 = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.2, 0.5), tailMat);
     tail1.position.set(0.4, 0.5, -1.8);
     tail1.rotation.z = Math.PI / 4;
-    drone.add(tail1);
+    group.add(tail1);
     const tail2 = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.2, 0.5), tailMat);
     tail2.position.set(-0.4, 0.5, -1.8);
     tail2.rotation.z = -Math.PI / 4;
-    drone.add(tail2);
-
-    scene.add(drone);
-    isInitialized = true;
+    group.add(tail2);
   }
 
   function animate() {
@@ -300,7 +330,7 @@ function init3DViewer() {
   // Global trigger
   document.addEventListener('click', e => {
     const btn = e.target.closest('button, a');
-    if (btn && (btn.id === 'navCtaBtn' || btn.id === 'heroCtaBtn' || btn.innerText.includes('MİSYON'))) {
+    if (btn && (btn.id === 'navCtaBtn' || btn.id === 'heroCtaBtn' || btn.id === 'modelViewBtn' || btn.innerText.includes('MİSYON'))) {
       e.preventDefault();
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';

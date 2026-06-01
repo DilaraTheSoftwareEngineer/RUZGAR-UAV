@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="style.css?v=5" />
   <!-- Three.js for 3D UAV Viewer -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 
 <body>
@@ -72,8 +73,8 @@
           <span class="line2"><span class="accent">HÂKİMİYET</span></span>
         </h1>
         <p class="hero-subtitle">
-          Türkiye'nin en ileri nesil silahlı insansız hava araçları.<br />
-          Keşif'ten imhaya, her koşulda üstün performans.
+          Fırat Üniversitesi'nin 10 kişilik genç mühendis ekibi tarafından geliştirilen,<br />
+          Teknofest 2026 SİHA kategorisi için hazırlanan yenilikçi hava aracı platformu.
         </p>
         <div class="hero-stats">
           <div class="stat-item">
@@ -131,48 +132,270 @@
 
   <!-- ========== ABOUT ========== -->
   <section id="about" class="section">
+    <style>
+      .about-glow-card {
+        background: rgba(11, 16, 28, 0.7);
+        border: 1px solid rgba(42, 91, 168, 0.3);
+        padding: 1.2rem 1.5rem;
+        margin-bottom: 1.2rem;
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        --card-color-rgb: 0, 232, 122;
+        --card-color-hex: #00e87a;
+      }
+
+      .about-glow-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(var(--card-color-rgb), 0.25), transparent);
+        transition: all 0.6s ease;
+        transform: skewX(-20deg);
+      }
+
+      .about-glow-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        border-color: var(--card-color-hex);
+        box-shadow: 0 8px 30px rgba(var(--card-color-rgb), 0.25);
+      }
+
+      .about-glow-card:hover::before {
+        left: 200%;
+      }
+
+      .about-lead-highlight {
+        font-size: 1.1rem;
+        color: #fff;
+        line-height: 1.8;
+        border-left: 4px solid var(--red);
+        padding-left: 1.2rem;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 0 10px rgba(230, 50, 41, 0.3);
+        background: linear-gradient(90deg, rgba(230, 50, 41, 0.15) 0%, transparent 100%);
+        border-radius: 0 8px 8px 0;
+      }
+
+      .wow-visual-container {
+        position: relative;
+        display: inline-block;
+        margin-top: 2rem;
+      }
+
+      .hologram-scan {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--green);
+        box-shadow: 0 0 20px 4px var(--green);
+        animation: scanline 3s linear infinite;
+        opacity: 0.8;
+        z-index: 10;
+      }
+
+      @keyframes scanline {
+        0% {
+          top: 0%;
+          opacity: 0;
+        }
+
+        10% {
+          opacity: 1;
+        }
+
+        90% {
+          opacity: 1;
+        }
+
+        100% {
+          top: 100%;
+          opacity: 0;
+        }
+      }
+
+      .pulse-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 2px solid rgba(42, 91, 168, 0.6);
+        animation: pulseRing 4s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+        z-index: -1;
+      }
+
+      @keyframes pulseRing {
+        0% {
+          width: 80%;
+          height: 80%;
+          opacity: 1;
+          box-shadow: 0 0 20px rgba(42, 91, 168, 0.5);
+        }
+
+        100% {
+          width: 140%;
+          height: 140%;
+          opacity: 0;
+          box-shadow: 0 0 50px rgba(42, 91, 168, 0);
+        }
+      }
+
+      .fancy-title {
+        background: linear-gradient(to right, #fff, var(--navy-light), var(--red));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 5s infinite linear;
+        background-size: 200% auto;
+        text-shadow: 0 0 30px rgba(230, 50, 41, 0.3);
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% center;
+        }
+
+        100% {
+          background-position: 200% center;
+        }
+      }
+    </style>
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">// HAKKIMIZDA</span>
-        <h2 class="section-title">Teknoloji ile <span class="accent">Üstünlük</span></h2>
+        <span class="section-tag"
+          style="animation: blink 2s infinite; font-size: 0.8rem; text-shadow: 0 0 10px var(--red);">// GÜCÜMÜZÜN
+          KAYNAĞI</span>
+        <h2 class="section-title fancy-title">Teknoloji ile Üstünlük</h2>
       </div>
-      <div class="about-grid">
+      <style>
+        .about-grid-layout {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 3rem;
+          align-items: stretch;
+        }
+
+        @media (max-width: 900px) {
+          .about-grid-layout {
+            grid-template-columns: 1fr;
+          }
+        }
+      </style>
+      <div class="about-grid-layout">
         <div class="about-text reveal-left">
-          <p class="about-lead">2015'ten bu yana Türk savunma sanayiinde çığır açan RÜZGAR UAV, insansız hava aracı
-            teknolojisinde dünya standartlarını belirliyor.</p>
-          <p>Yapay zeka destekli otonom navigasyon, gelişmiş silah sistemleri entegrasyonu ve olağanüstü dayanıklılık
-            ile tasarlanan sistemlerimiz; keşif, gözetleme ve taarruz görevlerinde rakipsiz performans sunar.</p>
-          <div class="about-pillars">
-            <div class="pillar">
-              <div class="pillar-icon">🛡️</div>
-              <div><strong>Yerli Teknoloji</strong>
-                <p>%100 milli imkânlarla üretilmiş savunma sistemleri</p>
-              </div>
-            </div>
-            <div class="pillar">
-              <div class="pillar-icon">🤖</div>
-              <div><strong>Yapay Zeka</strong>
-                <p>Otonom görev planlama ve hedef tanıma sistemleri</p>
-              </div>
-            </div>
-            <div class="pillar">
-              <div class="pillar-icon">⚡</div>
-              <div><strong>Anlık Tepki</strong>
-                <p>Milisaniyeler içinde tehdit tespiti ve müdahale</p>
-              </div>
-            </div>
+          <div class="about-lead-highlight" style="padding: 1rem 1.5rem;">
+            Fırat Üniversitesi'nin inovasyon ruhunu sahaya taşıyan <strong>10 kişilik dinamik ekibimiz</strong>, <strong
+              style="color:var(--navy-light);">RÜZGAR SİHA</strong> projesini geliştirmektedir.
+          </div>
+          <p style="color: var(--text-dim); margin-bottom: 2rem; font-size: 0.95rem; line-height: 1.8;">
+            Ekim 2025'te kurulan ve Gençlik Merkezi'ne bağlı olarak çalışmalarını sürdüren takımımız, otonom navigasyon,
+            aerodinamik tasarım ve elektronik sistemler üzerine yoğunlaşmaktadır.<br><br>
+            <strong>2026 Teknofest SİHA</strong> kategorisinde yarışmaya hazırlanıyoruz. Sahaya ilk kez çıkacak olmamıza
+            rağmen, gece gündüz demeden sergilediğimiz azmimiz sayesinde şimdiden <strong>3. adıma geçmeye hak
+              kazandık</strong> ve gökyüzünde söz sahibi olmaya kararlıyız.
+          </p>
+          <p style="color: var(--text-dim); margin-bottom: 2rem; font-size: 0.95rem; line-height: 1.8;">
+            Teknoloji Fakültesi Yazılım Mühendisliği bölümünden değerli danışmanımız <strong>Doç. Dr. Ferhat
+              Uçar</strong>'ın engin tecrübelerinden doğrudan yararlanmaktayız. Kendisinin multidisipliner alanlardaki
+            yenilikçi çalışmaları, akademik vizyonu ve sürekli desteği, projemizin geliştirme süreçlerinde ve
+            karşılaştığımız zorlukları aşmamızda bize her adımda büyük bir rehberlik ve güç katmaktadır.
+          </p>
+
+          <h4
+            style="color: var(--red); margin-top: 2rem; margin-bottom: 1.5rem; font-family: var(--font-title); font-size: 1rem; letter-spacing: 0.2em; text-shadow: 0 0 10px rgba(230,50,41,0.6);">
+            // BİRİMLERİMİZ</h4>
+
+          <div class="about-glow-card" style="--card-color-rgb: 0, 232, 122; --card-color-hex: var(--green);">
+            <h5 style="color: var(--green); margin-bottom: 0.5rem; font-family: var(--font-title); font-size: 0.9rem;">
+              <span style="color:#fff;">[01]</span> YAZILIM VE AVİYONİK <span
+                style="font-size: 0.65rem; color: #fff; float: right; background: rgba(0,232,122,0.3); padding: 4px 10px; border-radius: 12px; letter-spacing: 0.1em;">6
+                KİŞİ</span>
+            </h5>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin: 0; line-height: 1.6;">Otonom uçuş algoritmaları, yapay
+              zeka destekli görüntü işleme ve şifreli veri haberleşmesi geliştiren yazılım beyni.</p>
+          </div>
+          <div class="about-glow-card" style="--card-color-rgb: 96, 165, 250; --card-color-hex: #60a5fa;">
+            <h5 style="color: #60a5fa; margin-bottom: 0.5rem; font-family: var(--font-title); font-size: 0.9rem;"><span
+                style="color:#fff;">[02]</span> MEKANİK <span
+                style="font-size: 0.65rem; color: #fff; float: right; background: rgba(96,165,250,0.3); padding: 4px 10px; border-radius: 12px; letter-spacing: 0.1em;">2
+                KİŞİ</span></h5>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin: 0; line-height: 1.6;">SİHA'nın aerodinamik
+              verimliliği, sürtünme testleri ve ultra hafif karbon kompozit gövde üretimi süreçlerini yöneten iskelet
+              yapısı.</p>
+          </div>
+          <div class="about-glow-card" style="--card-color-rgb: 245, 158, 11; --card-color-hex: #f59e0b;">
+            <h5 style="color: #f59e0b; margin-bottom: 0.5rem; font-family: var(--font-title); font-size: 0.9rem;"><span
+                style="color:#fff;">[03]</span> ELEKTRİK <span
+                style="font-size: 0.65rem; color: #fff; float: right; background: rgba(245,158,11,0.3); padding: 4px 10px; border-radius: 12px; letter-spacing: 0.1em;">2
+                KİŞİ</span></h5>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin: 0; line-height: 1.6;">Uçuş süresini maksimize eden güç
+              dağıtım sistemleri, batarya optimizasyonu ve donanım entegrasyonu sağlayan sinir sistemi.</p>
           </div>
         </div>
-        <div class="about-visual reveal-right">
-          <div class="about-card">
-            <img src="assets/siha_tech.png" alt="SIHA Teknoloji Detayı" />
-            <div class="about-card-overlay">
-              <div class="about-card-tag">UAV-47 BLADE</div>
-              <div class="about-card-specs">
-                <div>Karbon Fiber Gövde</div>
-                <div>Termal Kamera Sistemi</div>
-                <div>Akıllı Füze Entegrasyonu</div>
-              </div>
+
+        <!-- Sağ: 3 Dikey Ekip Fotoğrafı -->
+        <div class="about-vertical-photos reveal-right"
+          style="display: flex; flex-direction: column; gap: 1.5rem; justify-content: space-between; padding-top: 2rem;">
+
+          <div
+            style="flex: 1; border-radius: 8px; overflow: hidden; border: 1px solid rgba(42,91,168,0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+            <img src="assets/team_work_1.jpg" alt="Ekip Fotoğrafı 1"
+              style="width: 100%; height: 100%; object-fit: cover; display: block;"
+              onerror="this.src='https://via.placeholder.com/400x300/1a1f2e/60a5fa?text=Saha+Foto+1'" />
+          </div>
+          <div
+            style="flex: 1; border-radius: 8px; overflow: hidden; border: 1px solid rgba(42,91,168,0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+            <img src="assets/team_work_2.jpg" alt="Ekip Fotoğrafı 2"
+              style="width: 100%; height: 100%; object-fit: cover; display: block;"
+              onerror="this.src='https://via.placeholder.com/400x300/1a1f2e/60a5fa?text=Saha+Foto+2'" />
+          </div>
+          <div
+            style="flex: 1; border-radius: 8px; overflow: hidden; border: 1px solid rgba(42,91,168,0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+            <img src="assets/team_work_3.jpg" alt="Ekip Fotoğrafı 3"
+              style="width: 100%; height: 100%; object-fit: cover; display: block;"
+              onerror="this.src='https://via.placeholder.com/400x300/1a1f2e/60a5fa?text=Saha+Foto+3'" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PROTOTYPE PREVIEW ========== -->
+  <section id="prototype-preview" class="section"
+    style="padding: 2rem 0; background: linear-gradient(to bottom, var(--navy-dark), rgba(4,5,14,1));">
+    <div class="container" style="display: flex; justify-content: center;">
+      <div class="wow-visual-container reveal-up">
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring" style="animation-delay: -2s;"></div>
+        <div class="about-card"
+          style="box-shadow: 0 0 40px rgba(42,91,168,0.5); border: 2px solid rgba(42,91,168,0.8); border-radius: 12px; overflow: hidden; transform: perspective(1000px) rotateY(-5deg); transition: transform 0.5s ease; cursor: pointer;"
+          onclick="document.getElementById('systems').scrollIntoView({behavior: 'smooth'})">
+          <img src="assets/siha_tech.png" alt="SIHA Teknoloji Detayı"
+            style="filter: drop-shadow(0 0 15px rgba(0,232,122,0.4)) contrast(1.2); mix-blend-mode: screen; max-width: 600px;" />
+          <div class="hologram-scan"></div>
+          <div class="about-card-overlay"
+            style="background: linear-gradient(to top, rgba(4,5,14,0.95) 10%, transparent 100%);">
+            <div class="about-card-tag"
+              style="background: var(--red); color: #fff; box-shadow: 0 0 20px var(--red); font-size: 0.8rem; padding: 6px 12px;">
+              UAV-2026 PROTOTİP SİSTEMİ (İNCELE)</div>
+            <div class="about-card-specs" style="font-size: 0.8rem; margin-top: 1rem;">
+              <div style="margin-bottom: 8px;"><span
+                  style="color:var(--green); margin-right: 5px; text-shadow: 0 0 5px var(--green);">✓</span> Yüksek
+                Dayanımlı Karbon Gövde</div>
+              <div style="margin-bottom: 8px;"><span
+                  style="color:var(--green); margin-right: 5px; text-shadow: 0 0 5px var(--green);">✓</span> Tam Otonom
+                Görüntü İşleme</div>
+              <div><span style="color:var(--green); margin-right: 5px; text-shadow: 0 0 5px var(--green);">✓</span>
+                Gençlik Merkezi Destekli Üretim</div>
             </div>
           </div>
         </div>
@@ -184,38 +407,17 @@
   <section id="systems" class="section section-dark">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">// SİSTEMLER</span>
-        <h2 class="section-title">Savaş <span class="accent-red">Platformları</span></h2>
-        <p class="section-desc">Her görev profili için özel tasarlanmış, operasyonel açıdan üstün insansız hava
-          platformları.</p>
+        <span class="section-tag">// ÜRÜNLERİMİZ</span>
+        <h2 class="section-title">Teknofest 2026 <span class="accent-red">SİHA</span></h2>
+        <p class="section-desc">Yarışma hedeflerine yönelik özel olarak tasarlanmış, otonom kabiliyetleri yüksek
+          platformumuz.</p>
       </div>
-      <div class="systems-grid">
-        <div class="system-card reveal-up" style="--delay:0s">
+      <div class="systems-grid" style="display: flex; justify-content: center;">
+        <!-- Ortalanmış SİHA Kartı -->
+        <div class="system-card system-card-featured reveal-up" style="max-width: 800px; width: 100%;">
           <div class="system-card-header">
-            <div class="system-badge">TAARRUZ</div>
-            <div class="system-id">RZ-01</div>
-          </div>
-          <div class="system-icon">
-            <svg viewBox="0 0 80 80" fill="none">
-              <path d="M40 10 L70 50 L40 42 L10 50 Z" stroke="#e63229" stroke-width="1.5" fill="rgba(230,50,41,0.05)" />
-              <path d="M40 42 L40 70" stroke="#e63229" stroke-width="1" stroke-dasharray="3,3" />
-              <circle cx="40" cy="40" r="4" fill="#e63229" />
-            </svg>
-          </div>
-          <h3 class="system-name">RÜZGAR <span class="accent">TAARRUZ</span></h3>
-          <p class="system-desc">Yüksek hassasiyetli silah sistemleri ile donatılmış ağır taarruz platformu.</p>
-          <ul class="system-features">
-            <li>Lazer güdümlü füze entegrasyonu</li>
-            <li>30mm topçu sistemi</li>
-            <li>Otonom hedef kilitleme</li>
-          </ul>
-          <a href="#contact" class="system-btn">Detaylı Bilgi <span>→</span></a>
-        </div>
-
-        <div class="system-card system-card-featured reveal-up" style="--delay:0.15s">
-          <div class="system-card-header">
-            <div class="system-badge system-badge-blue">ÇOKLU GÖREV</div>
-            <div class="system-id">RZ-07</div>
+            <div class="system-badge system-badge-blue">PROTOTİP</div>
+            <div class="system-id">TF-2026</div>
           </div>
           <div class="system-icon">
             <svg viewBox="0 0 80 80" fill="none">
@@ -225,43 +427,24 @@
               <circle cx="40" cy="40" r="12" stroke="#2a5ba8" stroke-width="0.5" opacity="0.4" />
             </svg>
           </div>
-          <h3 class="system-name">RÜZGAR <span style="color:#2a5ba8">APEX</span></h3>
-          <p class="system-desc">Amiral gemisi platform. Keşif, gözetleme, taarruz ve elektronik harbi tek gövdede
-            birleştirir.</p>
-          <ul class="system-features">
-            <li>Tam otonom görev icra</li>
-            <li>Çoklu silah yükü</li>
-            <li>Uydu iletişim sistemi</li>
-            <li>42 saat havada kalma</li>
+          <h3 class="system-name" style="font-size: 2rem;">RÜZGAR <span style="color:#2a5ba8">SİHA</span></h3>
+          <p class="system-desc" style="font-size: 1.1rem; margin-bottom: 2rem;">Teknofest 2026 için özel olarak
+            tasarlanan SİHA platformumuz. Yüksek aerodinamik verimlilik, otonom görev yeteneği ve dayanıklılık sunar.
+          </p>
+          <ul class="system-features"
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: left; margin-bottom: 2rem; padding-left: 2rem;">
+            <li style="justify-content: flex-start;">Tam otonom kalkış ve iniş</li>
+            <li style="justify-content: flex-start;">Gelişmiş hedef takip algoritmaları</li>
+            <li style="justify-content: flex-start;">Hafif karbon fiber gövde tasarımı</li>
+            <li style="justify-content: flex-start;">Optimize edilmiş güç yönetimi</li>
           </ul>
-          <a href="#contact" class="system-btn">Detaylı Bilgi <span>→</span></a>
-          <div class="featured-glow"></div>
-        </div>
-
-        <div class="system-card reveal-up" style="--delay:0.3s">
-          <div class="system-card-header">
-            <div class="system-badge system-badge-green">KEŞİF</div>
-            <div class="system-id">RZ-03</div>
-          </div>
-          <div class="system-icon">
-            <svg viewBox="0 0 80 80" fill="none">
-              <circle cx="40" cy="35" r="20" stroke="#00e87a" stroke-width="1.5" fill="rgba(0,232,122,0.05)" />
-              <circle cx="40" cy="35" r="10" stroke="#00e87a" stroke-width="1" opacity="0.5" />
-              <line x1="40" y1="5" x2="40" y2="15" stroke="#00e87a" stroke-width="1.5" />
-              <line x1="40" y1="55" x2="40" y2="75" stroke="#00e87a" stroke-width="1.5" />
-              <line x1="10" y1="35" x2="20" y2="35" stroke="#00e87a" stroke-width="1.5" />
-              <line x1="60" y1="35" x2="70" y2="35" stroke="#00e87a" stroke-width="1.5" />
-              <circle cx="40" cy="35" r="3" fill="#00e87a" />
+          <button class="btn btn-primary" id="modelViewBtn" style="font-size: 0.9rem; padding: 1rem 2rem;">
+            <span>3D MODELİ KEŞFET</span>
+            <svg class="btn-arrow" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
-          </div>
-          <h3 class="system-name">RÜZGAR <span style="color:#00e87a">GÖZCÜ</span></h3>
-          <p class="system-desc">Ultra uzun menzilli gözetleme ve istihbarat platformu. 24/7 keşif kapasitesi.</p>
-          <ul class="system-features">
-            <li>30km optik kamera menzili</li>
-            <li>Termal görüntüleme</li>
-            <li>Şifreli veri aktarımı</li>
-          </ul>
-          <a href="#contact" class="system-btn">Detaylı Bilgi <span>→</span></a>
+          </button>
+          <div class="featured-glow"></div>
         </div>
       </div>
     </div>
@@ -339,18 +522,130 @@
       </div>
       <div class="team-section-wrap">
         <div class="dept-divider">
-          <span class="dept-divider-label">// <span>YÖNETİM KURULU</span></span>
+          <span class="dept-divider-label">// <span>YAZILIM VE AVİYONİK BİRİMİ</span></span>
           <div class="dept-divider-line"></div>
         </div>
+        <!-- YAZILIM EKİBİ - 6 KİŞİ -->
         <div class="team-member-row">
           <div class="tm-photo-wrap reveal-left">
-            <img src="assets/team_1.png" alt="Ahmet Kaya" class="tm-photo" />
+            <img src="assets/team_1.png" alt="Örnek Kişi" class="tm-photo"
+              onerror="this.src='https://via.placeholder.com/200?text=Üye'" />
             <div class="tm-ring"></div>
           </div>
           <div class="tm-info reveal-right">
-            <h3 class="tm-name">Ahmet Kaya</h3>
-            <div class="tm-role">Genel Müdür</div>
-            <p class="tm-desc">Savunma sanayii deneyimiyle RÜZGAR UAV'ın kurucusu.</p>
+            <h3 class="tm-name">Üye 1</h3>
+            <div class="tm-role">Yazılım Ekibi</div>
+          </div>
+        </div>
+        <div class="team-member-row team-member-row-reverse">
+          <div class="tm-photo-wrap reveal-right">
+            <img src="assets/team_1.png" alt="Örnek Kişi" class="tm-photo"
+              onerror="this.src='https://via.placeholder.com/200?text=Üye'" />
+            <div class="tm-ring"></div>
+          </div>
+          <div class="tm-info reveal-left">
+            <h3 class="tm-name">Üye 2</h3>
+            <div class="tm-role">Yazılım Ekibi</div>
+          </div>
+        </div>
+        <div class="team-member-row">
+          <div class="tm-photo-wrap reveal-left">
+            <img src="assets/team_1.png" alt="Örnek Kişi" class="tm-photo"
+              onerror="this.src='https://via.placeholder.com/200?text=Üye'" />
+            <div class="tm-ring"></div>
+          </div>
+          <div class="tm-info reveal-right">
+            <h3 class="tm-name">Üye 3</h3>
+            <div class="tm-role">Yazılım Ekibi</div>
+          </div>
+        </div>
+        <div class="team-member-row team-member-row-reverse">
+          <div class="tm-photo-wrap reveal-right">
+            <img src="assets/team_1.png" alt="Örnek Kişi" class="tm-photo"
+              onerror="this.src='https://via.placeholder.com/200?text=Üye'" />
+            <div class="tm-ring"></div>
+          </div>
+          <div class="tm-info reveal-left">
+            <h3 class="tm-name">Üye 4</h3>
+            <div class="tm-role">Yazılım Ekibi</div>
+          </div>
+        </div>
+        <div class="team-member-row">
+          <div class="tm-photo-wrap reveal-left">
+            <img src="assets/team_1.png" alt="Örnek Kişi" class="tm-photo"
+              onerror="this.src='https://via.placeholder.com/200?text=Üye'" />
+            <div class="tm-ring"></div>
+          </div>
+          <div class="tm-info reveal-right">
+            <h3 class="tm-name">Üye 5</h3>
+            <div class="tm-role">Yazılım Ekibi</div>
+          </div>
+        </div>
+        <div class="team-member-row team-member-row-reverse">
+          <div class="tm-photo-wrap reveal-right">
+            <img src="assets/team_1.png" alt="Örnek Kişi" class="tm-photo"
+              onerror="this.src='https://via.placeholder.com/200?text=Üye'" />
+            <div class="tm-ring"></div>
+          </div>
+          <div class="tm-info reveal-left">
+            <h3 class="tm-name">Üye 6</h3>
+            <div class="tm-role">Yazılım Ekibi</div>
+          </div>
+        </div>
+
+        <div class="dept-divider">
+          <span class="dept-divider-label">// <span>MEKANİK BİRİMİ</span></span>
+          <div class="dept-divider-line"></div>
+        </div>
+        <!-- MEKANİK EKİBİ - 2 KİŞİ -->
+        <div class="team-member-row">
+          <div class="tm-photo-wrap reveal-left">
+            <img src="assets/team_1.png" alt="Örnek Kişi" class="tm-photo"
+              onerror="this.src='https://via.placeholder.com/200?text=Üye'" />
+            <div class="tm-ring"></div>
+          </div>
+          <div class="tm-info reveal-right">
+            <h3 class="tm-name">Üye 1</h3>
+            <div class="tm-role">Mekanik Ekibi</div>
+          </div>
+        </div>
+        <div class="team-member-row team-member-row-reverse">
+          <div class="tm-photo-wrap reveal-right">
+            <img src="assets/team_1.png" alt="Örnek Kişi" class="tm-photo"
+              onerror="this.src='https://via.placeholder.com/200?text=Üye'" />
+            <div class="tm-ring"></div>
+          </div>
+          <div class="tm-info reveal-left">
+            <h3 class="tm-name">Üye 2</h3>
+            <div class="tm-role">Mekanik Ekibi</div>
+          </div>
+        </div>
+
+        <div class="dept-divider">
+          <span class="dept-divider-label">// <span>ELEKTRİK BİRİMİ</span></span>
+          <div class="dept-divider-line"></div>
+        </div>
+        <!-- ELEKTRİK EKİBİ - 2 KİŞİ -->
+        <div class="team-member-row">
+          <div class="tm-photo-wrap reveal-left">
+            <img src="assets/team_1.png" alt="Örnek Kişi" class="tm-photo"
+              onerror="this.src='https://via.placeholder.com/200?text=Üye'" />
+            <div class="tm-ring"></div>
+          </div>
+          <div class="tm-info reveal-right">
+            <h3 class="tm-name">Üye 1</h3>
+            <div class="tm-role">Elektrik Ekibi</div>
+          </div>
+        </div>
+        <div class="team-member-row team-member-row-reverse">
+          <div class="tm-photo-wrap reveal-right">
+            <img src="assets/team_1.png" alt="Örnek Kişi" class="tm-photo"
+              onerror="this.src='https://via.placeholder.com/200?text=Üye'" />
+            <div class="tm-ring"></div>
+          </div>
+          <div class="tm-info reveal-left">
+            <h3 class="tm-name">Üye 2</h3>
+            <div class="tm-role">Elektrik Ekibi</div>
           </div>
         </div>
       </div>
@@ -390,8 +685,37 @@
               <label for="emailAddr">E-posta</label>
               <input type="email" id="emailAddr" placeholder="info@ruzgaruav.com.tr" />
             </div>
-            <button type="submit" class="btn btn-primary" id="submitFormBtn">MESAJI GÖNDER</button>
+            <div class="form-group">
+              <label for="messageText">Mesajınız</label>
+              <textarea id="messageText" rows="4" placeholder="Size nasıl yardımcı olabiliriz?"
+                style="width: 100%; padding: 0.8rem 1.2rem; background: rgba(4, 5, 14, 0.6); border: 1px solid var(--border); color: #fff; font-family: var(--font-main); resize: vertical; margin-top: 0.3rem;"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="submitFormBtn" style="margin-top: 1rem;">MESAJI
+              GÖNDER</button>
           </form>
+        </div>
+        <div class="contact-info reveal-right">
+          <div class="contact-info-card">
+            <div class="cinfo-icon">📍</div>
+            <div>
+              <strong>Merkez (Adres)</strong>
+              <p>Fırat Üniversitesi & Gençlik Merkezi, Elazığ, Türkiye</p>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <div class="cinfo-icon">✉️</div>
+            <div>
+              <strong>E-posta</strong>
+              <p>info@ruzgaruav.com.tr</p>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <div class="cinfo-icon">📞</div>
+            <div>
+              <strong>Telefon</strong>
+              <p>+90 500 000 00 00</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
