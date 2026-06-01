@@ -244,23 +244,23 @@ function init3DViewer() {
     // 3D Model Loading Logic (GLTFLoader)
     drone = new THREE.Group();
     scene.add(drone);
-    
+
     // Yükleyeceğiniz modelin adı 'model.glb' olmalı ve 'assets/' klasöründe bulunmalı.
     const modelPath = 'assets/model.glb';
-    
+
     if (typeof THREE.GLTFLoader !== 'undefined') {
       const loader = new THREE.GLTFLoader();
       loader.load(modelPath, function (gltf) {
         // Model başarıyla yüklendiğinde
         drone.add(gltf.scene);
-        
+
         // Modeli ortalamak ve ölçeklemek için hesaplamalar
         const box = new THREE.Box3().setFromObject(gltf.scene);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
         const scale = 5 / maxDim; // Modeli ekrana sığacak şekilde ölçekle
-        
+
         gltf.scene.scale.set(scale, scale, scale);
         gltf.scene.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
       }, undefined, function (error) {
@@ -270,7 +270,7 @@ function init3DViewer() {
     } else {
       createFallbackDrone(drone);
     }
-    
+
     isInitialized = true;
   }
 
@@ -346,4 +346,64 @@ function init3DViewer() {
       cancelAnimationFrame(animationId);
     });
   }
+}
+
+// ==========================================
+// CONTACT FORM AJAX SUBMISSION
+// ==========================================
+const form = document.getElementById("contactForm");
+const formStatus = document.getElementById("formStatus");
+
+if (form) {
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const btn = document.getElementById("submitFormBtn");
+    btn.innerHTML = "GÖNDERİLİYOR...";
+    btn.disabled = true;
+
+    const data = new FormData(event.target);
+    const action = event.target.action;
+
+    // Check if ID is replaced
+    if (action.includes("SENIN_FORM_ID_BURAYA")) {
+      formStatus.style.display = "block";
+      formStatus.style.backgroundColor = "rgba(230, 50, 41, 0.1)";
+      formStatus.style.borderColor = "var(--red)";
+      formStatus.style.color = "var(--red)";
+      formStatus.innerHTML = "Lütfen formun çalışması için index.html içindeki 'SENIN_FORM_ID_BURAYA' kısmını kendi Formspree ID'niz ile değiştirin.";
+      btn.innerHTML = "MESAJI GÖNDER";
+      btn.disabled = false;
+      return;
+    }
+
+    try {
+      const response = await fetch(action, {
+        method: form.method,
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        formStatus.style.display = "block";
+        formStatus.style.backgroundColor = "rgba(0, 232, 122, 0.1)";
+        formStatus.style.borderColor = "var(--green)";
+        formStatus.style.color = "var(--green)";
+        formStatus.innerHTML = "Mesajınız başarıyla iletildi. Teşekkürler!";
+        form.reset();
+      } else {
+        throw new Error("Ağ hatası");
+      }
+    } catch (error) {
+      formStatus.style.display = "block";
+      formStatus.style.backgroundColor = "rgba(230, 50, 41, 0.1)";
+      formStatus.style.borderColor = "var(--red)";
+      formStatus.style.color = "var(--red)";
+      formStatus.innerHTML = "Gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
+    }
+
+    btn.innerHTML = "MESAJI GÖNDER";
+    btn.disabled = false;
+  });
 }
