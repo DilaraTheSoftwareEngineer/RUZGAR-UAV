@@ -238,7 +238,6 @@ function init3DViewer() {
   let materials = [];
   let isDragging = false;
   let previousMousePosition = { x: 0, y: 0 };
-  let entryProgress = 0;
 
   function initThree() {
     if (typeof THREE === 'undefined') return;
@@ -248,8 +247,7 @@ function init3DViewer() {
     if (oldCanvas) oldCanvas.remove();
 
     scene = new THREE.Scene();
-    // Arka planı şeffaf bırakıp, CSS ile stüdyo gradient'i veriyoruz
-    container.style.background = 'radial-gradient(circle at center, #1e293b 0%, #020617 80%)';
+    scene.background = new THREE.Color(0x10182a); // Daha aydınlık bir arka plan
 
     const w = container.clientWidth;
     const h = container.clientHeight;
@@ -266,25 +264,25 @@ function init3DViewer() {
     const canvas = renderer.domElement;
     container.insertBefore(canvas, container.querySelector('.uav-hud-overlay'));
 
-    // LIGHTING - Derinlik ve çoklu renk
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4); // Derinlik için kısıldı
-    scene.add(ambientLight);
+    // LIGHTING - 4 sources
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+scene.add(ambientLight);
 
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x10182a, 0.6);
-    scene.add(hemiLight);
+const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444488, 0.7);
+scene.add(hemiLight);
 
-    const mainLight = new THREE.DirectionalLight(0xffffff, 2.0); // Ana beyaz ışık
-    mainLight.position.set(15, 20, 15);
-    mainLight.castShadow = true;
-    scene.add(mainLight);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 2.2);
+directionalLight.position.set(15, 20, 15);
+directionalLight.castShadow = true;
+scene.add(directionalLight);
 
-    const blueLight = new THREE.DirectionalLight(0x0088ff, 3.5); // Sol canlı mavi ışık
-    blueLight.position.set(-20, 10, 15);
-    scene.add(blueLight);
+const keyLight = new THREE.DirectionalLight(0x7db3ff, 1.5);
+keyLight.position.set(-20, 10, 20);
+scene.add(keyLight);
 
-    const pinkLight = new THREE.DirectionalLight(0xff0066, 3.0); // Sağ arka pembe/kırmızı ışık
-    pinkLight.position.set(15, 5, -20);
-    scene.add(pinkLight);
+const fillLight = new THREE.DirectionalLight(0xff8844, 1.2);
+fillLight.position.set(10, 5, -15);
+scene.add(fillLight);
 
     // DRONE
     drone = new THREE.Group();
@@ -323,8 +321,6 @@ function init3DViewer() {
               materials.push(newMat);
             }
           });
-          
-          entryProgress = 0; // Modeli yükledikten sonra animasyonu tetikle
         },
         undefined,
         function (error) {
@@ -389,25 +385,13 @@ function init3DViewer() {
     tailH.position.set(0, 0, -2.2);
     group.add(tailH);
     materials.push(tailHMaterial);
-
-    entryProgress = 0; // Yedek model için animasyonu tetikle
   }
 
   function animate() {
     animationId = requestAnimationFrame(animate);
 
-    if (drone) {
-      // Entry animation when initialized
-      if (entryProgress < 1) {
-        entryProgress += 0.015;
-        if (entryProgress > 1) entryProgress = 1;
-        const ease = 1 - Math.pow(1 - entryProgress, 3); // Cubic ease out
-        drone.position.z = 15 * (1 - ease);
-        drone.position.y = -5 * (1 - ease);
-        drone.rotation.x = (Math.PI / 4) * (1 - ease); // Rotates into place
-      } else if (!isDragging) {
-        drone.rotation.y += 0.003;
-      }
+    if (drone && !isDragging) {
+      drone.rotation.y += 0.003;
     }
 
     if (renderer && scene && camera) {
@@ -438,17 +422,14 @@ function init3DViewer() {
 
   // COLOR PICKER
   if (colorInput) {
-    const updateColor = (e) => {
+    colorInput.addEventListener('input', (e) => {
       const newColor = e.target.value;
       materials.forEach(mat => {
         if (mat && mat.color) {
           mat.color.set(newColor);
-          mat.needsUpdate = true;
         }
       });
-    };
-    colorInput.addEventListener('input', updateColor);
-    colorInput.addEventListener('change', updateColor);
+    });
   }
 
   // CLOSE
@@ -465,16 +446,12 @@ function init3DViewer() {
   // MODAL TRIGGERS
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('button, a');
-    if (btn && btn.id === 'confirmMissionBtn') return; // Bu butonu atla, kendi eventi var
-    
     if (btn && (btn.id === 'navCtaBtn' || btn.id === 'heroCtaBtn' || btn.id === 'modelViewBtn' || (btn.innerText && btn.innerText.includes('MİSYON')))) {
       e.preventDefault();
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
       if (!isInitialized) {
         initThree();
-      } else {
-        entryProgress = 0;
       }
       animate();
     }
@@ -484,8 +461,6 @@ function init3DViewer() {
   window.init3DScene = function() {
     if (!isInitialized) {
       initThree();
-    } else {
-      entryProgress = 0;
     }
     animate();
   };
@@ -562,8 +537,7 @@ if (confirmMissionBtn) {
       document.body.style.overflow = "auto";
     }
     setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' }); // Sayfayı yenilemeden en üste kaydır
-      history.replaceState(null, null, ' '); // URL hash'i temizle
+      window.location.href = '#hero'; // Ana sayfa veya hero kısmına yönlendir
     }, 300);
   });
 }
