@@ -2205,7 +2205,11 @@ textarea::placeholder {
 #uavCanvasContainer {
   flex: 1;
   position: relative;
-  background: radial-gradient(circle at center, #1a1f2e 0%, #0a0f19 100%);
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(26, 58, 107, 0.4) 0%, rgba(26, 58, 107, 0.1) 30%, transparent 70%),
+    radial-gradient(ellipse at 80% 20%, rgba(230, 50, 41, 0.15) 0%, transparent 40%),
+    radial-gradient(ellipse at 20% 80%, rgba(42, 91, 168, 0.1) 0%, transparent 40%),
+    linear-gradient(135deg, #1a2a46 0%, #0f1820 50%, #1a2a46 100%);
   cursor: grab;
 }
 
@@ -2283,8 +2287,39 @@ textarea::placeholder {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+.uav-controls-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
 .uav-controls-hint {
   font-size: 0.8rem;
   color: var(--text-dim);
   font-style: italic;
+}
+
+.color-control {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.color-control label {
+  font-family: var(--font-title);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  display: block;
+  margin: 0;
+}
+
+.color-control input[type="color"] {
+  width: 50px;
+  height: 40px;
+  border: 2px solid var(--red);
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 2px;
 }

@@ -1,5 +1,5 @@
 /* ==========================================
-   RÜZGAR UAV — JAVASCRIPT v5
+   RÜZGAR UAV — JAVASCRIPT v6
    ========================================== */
 
 // ==========================================
@@ -35,6 +35,18 @@ function startAnimations() {
   initRadar();
   animateSpecBars();
   if (typeof init3DViewer === 'function') init3DViewer();
+
+  // Show 3D modal as splash screen after animations start
+  setTimeout(() => {
+    const modal = document.getElementById('uavModal');
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      if (typeof window.init3DScene === 'function') {
+        window.init3DScene();
+      }
+    }
+  }, 1000);
 }
 
 // ==========================================
@@ -217,135 +229,238 @@ function init3DViewer() {
   const modal = document.getElementById('uavModal');
   const container = document.getElementById('uavCanvasContainer');
   const closeBtn = document.getElementById('closeUavModal');
+  const colorInput = document.getElementById('droneColor');
+
   if (!modal || !container) return;
 
   let scene, camera, renderer, drone, animationId;
   let isInitialized = false;
+  let materials = [];
+  let isDragging = false;
+  let previousMousePosition = { x: 0, y: 0 };
 
   function initThree() {
     if (typeof THREE === 'undefined') return;
+
+    // Clear old canvas
+    const oldCanvas = container.querySelector('canvas');
+    if (oldCanvas) oldCanvas.remove();
+
     scene = new THREE.Scene();
+    scene.background = null;
+
     const w = container.clientWidth;
     const h = container.clientHeight;
+
     camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
-    camera.position.set(5, 3, 10);
+    camera.position.set(8, 4, 12);
     camera.lookAt(0, 0, 0);
 
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(w, h);
     renderer.setPixelRatio(window.devicePixelRatio);
-    container.appendChild(renderer.domElement);
+    renderer.shadowMap.enabled = true;
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-    const dl = new THREE.DirectionalLight(0xffffff, 1);
-    dl.position.set(10, 10, 10);
-    scene.add(dl);
+    const canvas = renderer.domElement;
+    container.insertBefore(canvas, container.querySelector('.uav-hud-overlay'));
 
-    // 3D Model Loading Logic (GLTFLoader)
+    // LIGHTING - 4 sources
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    directionalLight.position.set(15, 20, 15);
+    directionalLight.castShadow = true;
+    scene.add(directionalLight);
+
+    const keyLight = new THREE.DirectionalLight(0x7db3ff, 1.1);
+    keyLight.position.set(-20, 10, 20);
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0xff8844, 0.8);
+    fillLight.position.set(10, 5, -15);
+    scene.add(fillLight);
+
+    // DRONE
     drone = new THREE.Group();
     scene.add(drone);
 
-    // Yükleyeceğiniz modelin adı 'model.glb' olmalı ve 'assets/' klasöründe bulunmalı.
+    // Try to load GLB
     const modelPath = 'assets/model.glb';
+    let modelLoaded = false;
 
     if (typeof THREE.GLTFLoader !== 'undefined') {
       const loader = new THREE.GLTFLoader();
-      loader.load(modelPath, function (gltf) {
-        // Model başarıyla yüklendiğinde
-        drone.add(gltf.scene);
+      loader.load(
+        modelPath,
+        function (gltf) {
+          modelLoaded = true;
+          drone.add(gltf.scene);
 
-        // Modeli ortalamak ve ölçeklemek için hesaplamalar
-        const box = new THREE.Box3().setFromObject(gltf.scene);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 5 / maxDim; // Modeli ekrana sığacak şekilde ölçekle
+          const box = new THREE.Box3().setFromObject(gltf.scene);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const scale = 6 / maxDim;
 
-        gltf.scene.scale.set(scale, scale, scale);
-        gltf.scene.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
-      }, undefined, function (error) {
-        console.warn('Model yüklenemedi, varsayılan şekil çiziliyor. Lütfen modeli assets klasörüne model.glb adıyla ekleyin.', error);
-        createFallbackDrone(drone);
-      });
+          gltf.scene.scale.set(scale, scale, scale);
+          gltf.scene.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
+
+          // Apply colored materials
+          gltf.scene.traverse(child => {
+            if (child.isMesh) {
+              const newMat = new THREE.MeshPhongMaterial({
+                color: colorInput?.value || '#e63229',
+                shininess: 100,
+                side: THREE.DoubleSide
+              });
+              child.material = newMat;
+              materials.push(newMat);
+            }
+          });
+        },
+        undefined,
+        function (error) {
+          console.warn('GLB yüklenemedi:', error);
+          if (!modelLoaded) {
+            createFallbackDrone(drone);
+          }
+        }
+      );
     } else {
       createFallbackDrone(drone);
     }
+
+    // Fallback after timeout
+    setTimeout(() => {
+      if (!modelLoaded && drone.children.length === 0) {
+        createFallbackDrone(drone);
+      }
+    }, 3000);
 
     isInitialized = true;
   }
 
   function createFallbackDrone(group) {
+    const colorHex = colorInput?.value || '#e63229';
+    materials = [];
+
+    const baseMaterial = new THREE.MeshPhongMaterial({
+      color: colorHex,
+      shininess: 120,
+      side: THREE.DoubleSide
+    });
+
     // Fuselage
-    const body = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.5, 0.3, 4, 12),
-      new THREE.MeshPhongMaterial({ color: 0x1a1f2e, shininess: 100 })
-    );
+    const bodyGeometry = new THREE.CylinderGeometry(0.6, 0.4, 5, 16);
+    const bodyMaterial = baseMaterial.clone();
+    const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
     body.rotateX(Math.PI / 2);
     group.add(body);
+    materials.push(bodyMaterial);
 
     // Wings
-    const wings = new THREE.Mesh(
-      new THREE.BoxGeometry(8, 0.1, 1),
-      new THREE.MeshPhongMaterial({ color: 0x0a0f19 })
-    );
+    const wingGeometry = new THREE.BoxGeometry(10, 0.15, 1.5);
+    const wingMaterial = baseMaterial.clone();
+    const wings = new THREE.Mesh(wingGeometry, wingMaterial);
     wings.position.z = 0.5;
     group.add(wings);
+    materials.push(wingMaterial);
 
-    // Tail
-    const tailMat = new THREE.MeshPhongMaterial({ color: 0x1a1f2e });
-    const tail1 = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.2, 0.5), tailMat);
-    tail1.position.set(0.4, 0.5, -1.8);
-    tail1.rotation.z = Math.PI / 4;
-    group.add(tail1);
-    const tail2 = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.2, 0.5), tailMat);
-    tail2.position.set(-0.4, 0.5, -1.8);
-    tail2.rotation.z = -Math.PI / 4;
-    group.add(tail2);
+    // Tail fin vertical
+    const tailVGeometry = new THREE.BoxGeometry(0.15, 1.5, 0.8);
+    const tailVMaterial = baseMaterial.clone();
+    const tailV = new THREE.Mesh(tailVGeometry, tailVMaterial);
+    tailV.position.set(0, 0.6, -2);
+    group.add(tailV);
+    materials.push(tailVMaterial);
+
+    // Tail fin horizontal
+    const tailHGeometry = new THREE.BoxGeometry(1.2, 0.15, 0.8);
+    const tailHMaterial = baseMaterial.clone();
+    const tailH = new THREE.Mesh(tailHGeometry, tailHMaterial);
+    tailH.position.set(0, 0, -2.2);
+    group.add(tailH);
+    materials.push(tailHMaterial);
   }
 
   function animate() {
     animationId = requestAnimationFrame(animate);
-    if (drone && !isDragging) drone.rotation.y += 0.005;
-    renderer.render(scene, camera);
+
+    if (drone && !isDragging) {
+      drone.rotation.y += 0.003;
+    }
+
+    if (renderer && scene && camera) {
+      renderer.render(scene, camera);
+    }
   }
 
-  // INTERACTION LOGIC
-  let isDragging = false;
-  let previousMousePosition = { x: 0, y: 0 };
+  // CONTROLS
+  container.addEventListener('mousedown', () => {
+    isDragging = true;
+  });
 
-  container.addEventListener('mousedown', e => { isDragging = true; });
-  window.addEventListener('mouseup', e => { isDragging = false; });
-  window.addEventListener('mousemove', e => {
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+
+  window.addEventListener('mousemove', (e) => {
     if (isDragging && drone) {
       const deltaMove = {
         x: e.offsetX - previousMousePosition.x,
         y: e.offsetY - previousMousePosition.y
       };
-      drone.rotation.y += deltaMove.x * 0.01;
-      drone.rotation.x += deltaMove.y * 0.01;
+      drone.rotation.y += deltaMove.x * 0.015;
+      drone.rotation.x += deltaMove.y * 0.015;
     }
     previousMousePosition = { x: e.offsetX, y: e.offsetY };
   });
 
-  // Global trigger
-  document.addEventListener('click', e => {
-    const btn = e.target.closest('button, a');
-    if (btn && (btn.id === 'navCtaBtn' || btn.id === 'heroCtaBtn' || btn.id === 'modelViewBtn' || btn.innerText.includes('MİSYON'))) {
-      e.preventDefault();
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      if (!isInitialized) initThree();
-      animate();
-    }
-  });
+  // COLOR PICKER
+  if (colorInput) {
+    colorInput.addEventListener('input', (e) => {
+      const newColor = e.target.value;
+      materials.forEach(mat => {
+        if (mat && mat.color) {
+          mat.color.set(newColor);
+        }
+      });
+    });
+  }
 
+  // CLOSE
   if (closeBtn) {
     closeBtn.addEventListener('click', () => {
       modal.classList.remove('active');
       document.body.style.overflow = 'auto';
-      cancelAnimationFrame(animationId);
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
     });
   }
+
+  // MODAL TRIGGERS
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('button, a');
+    if (btn && (btn.id === 'navCtaBtn' || btn.id === 'heroCtaBtn' || btn.id === 'modelViewBtn' || (btn.innerText && btn.innerText.includes('MİSYON')))) {
+      e.preventDefault();
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      if (!isInitialized) {
+        initThree();
+      }
+      animate();
+    }
+  });
+
+  // Expose for splash screen
+  window.init3DScene = function() {
+    if (!isInitialized) {
+      initThree();
+    }
+    animate();
+  };
 }
 
 // ==========================================
@@ -364,7 +479,6 @@ if (form) {
     const data = new FormData(event.target);
     const action = event.target.action;
 
-    // Check if ID is replaced
     if (action.includes("SENIN_FORM_ID_BURAYA")) {
       formStatus.style.display = "block";
       formStatus.style.backgroundColor = "rgba(230, 50, 41, 0.1)";
@@ -405,5 +519,23 @@ if (form) {
 
     btn.innerHTML = "MESAJI GÖNDER";
     btn.disabled = false;
+  });
+}
+
+// ==========================================
+// MISSION CONTINUE BUTTON
+// ==========================================
+const confirmMissionBtn = document.getElementById("confirmMissionBtn");
+if (confirmMissionBtn) {
+  confirmMissionBtn.addEventListener("click", () => {
+    const modal = document.getElementById("uavModal");
+    if (modal) {
+      modal.classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 300);
   });
 }
