@@ -315,19 +315,26 @@ body {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background: 
+  background:
     linear-gradient(to bottom, var(--bg) 0%, rgba(6, 7, 14, 0.2) 15%, transparent 35%, transparent 70%, rgba(6, 7, 14, 0.4) 85%, var(--bg) 100%),
-    url('assets/siha_hero_composite.png') no-repeat;
+    url('assets/mainpage.png') no-repeat;
   background-position: center center;
   background-size: cover;
   animation: lightningFlash 8s infinite;
 }
 
 @keyframes lightningFlash {
-  0%, 95%, 98%, 100% {
+
+  0%,
+  95%,
+  98%,
+  100% {
     filter: brightness(1) contrast(1);
   }
-  96%, 97.5%, 99% {
+
+  96%,
+  97.5%,
+  99% {
     filter: brightness(1.2) contrast(1.15) saturate(1.1);
   }
 }
@@ -1982,9 +1989,9 @@ textarea::placeholder {
 
 @media (max-width: 900px) {
   #hero {
-    background-image: 
+    background-image:
       linear-gradient(to bottom, var(--bg) 0%, rgba(6, 7, 14, 0.85) 50%, var(--bg) 100%),
-      url('assets/siha_hero_composite.png');
+      url('assets/mainpage.png');
     background-position: center center;
   }
 
