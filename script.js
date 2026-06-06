@@ -239,6 +239,16 @@ function init3DViewer() {
   let isDragging = false;
   let previousMousePosition = { x: 0, y: 0 };
   let entryProgress = 0;
+  let currentZoom = 1.0;
+  const initialPosition = new THREE.Vector3(8, 4, 12);
+  const zoomDirection = initialPosition.clone().normalize();
+
+  function updateZoom() {
+    if (camera) {
+      const distance = 14.96 * currentZoom;
+      camera.position.copy(zoomDirection).multiplyScalar(distance);
+    }
+  }
 
   function initThree() {
     if (typeof THREE === 'undefined') return;
@@ -290,45 +300,46 @@ function init3DViewer() {
     drone = new THREE.Group();
     scene.add(drone);
 
-    // Try to load GLB
-    const modelPath = 'assets/model.glb';
+    // Try to load STL
+    const modelPath = 'assets/model.STL';
     let modelLoaded = false;
 
-    if (typeof THREE.GLTFLoader !== 'undefined') {
-      const loader = new THREE.GLTFLoader();
+    if (typeof THREE.STLLoader !== 'undefined') {
+      const loader = new THREE.STLLoader();
       loader.load(
         modelPath,
-        function (gltf) {
+        function (geometry) {
           modelLoaded = true;
-          drone.add(gltf.scene);
 
-          const box = new THREE.Box3().setFromObject(gltf.scene);
-          const center = box.getCenter(new THREE.Vector3());
-          const size = box.getSize(new THREE.Vector3());
+          // Center the geometry vertices at (0,0,0) and compute bounds
+          geometry.center();
+          geometry.computeBoundingBox();
+
+          const size = new THREE.Vector3();
+          geometry.boundingBox.getSize(size);
           const maxDim = Math.max(size.x, size.y, size.z);
-          const scale = 6 / maxDim;
+          const scale = 9.5 / maxDim;
 
-          gltf.scene.scale.set(scale, scale, scale);
-          gltf.scene.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
-
-          // Apply colored materials
-          gltf.scene.traverse(child => {
-            if (child.isMesh) {
-              const newMat = new THREE.MeshPhongMaterial({
-                color: colorInput?.value || '#e63229',
-                shininess: 100,
-                side: THREE.DoubleSide
-              });
-              child.material = newMat;
-              materials.push(newMat);
-            }
+          const material = new THREE.MeshPhongMaterial({
+            color: colorInput?.value || '#e63229',
+            shininess: 100,
+            side: THREE.DoubleSide
           });
+
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+          mesh.scale.set(scale, scale, scale);
+          mesh.position.set(0, 0, 0); // Position at 0,0,0 as geometry is already centered
+
+          drone.add(mesh);
+          materials.push(material);
           
           entryProgress = 0; // Modeli yükledikten sonra animasyonu tetikle
         },
         undefined,
         function (error) {
-          console.warn('GLB yüklenemedi:', error);
+          console.warn('STL yüklenemedi:', error);
           if (!modelLoaded) {
             createFallbackDrone(drone);
           }
@@ -435,6 +446,18 @@ function init3DViewer() {
     }
     previousMousePosition = { x: e.offsetX, y: e.offsetY };
   });
+
+  // MOUSE WHEEL ZOOM
+  container.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const zoomSpeed = 0.08;
+    if (e.deltaY < 0) {
+      currentZoom = Math.max(0.2, currentZoom - zoomSpeed); // Zoom in
+    } else {
+      currentZoom = Math.min(2.5, currentZoom + zoomSpeed); // Zoom out
+    }
+    updateZoom();
+  }, { passive: false });
 
   // COLOR PICKER
   if (colorInput) {
